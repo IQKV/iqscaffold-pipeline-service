@@ -1,8 +1,11 @@
 HELP.md
+node_modules/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+package-lock.json
+pnpm-lock.yaml
 
 ### STS ###
 .apt_generated
@@ -32,16 +35,5 @@ build/
 ### VS Code ###
 .vscode/
 
-### Environment ###
-.env
-.env.local
-.env.staging
-.env.production
-
-### Logs ###
-logs/
-*.log
-
-### OS ###
-.DS_Store
-Thumbs.db
+CLAUDE.local.md
+.release-it.json
