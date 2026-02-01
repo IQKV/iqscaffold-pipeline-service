@@ -12,14 +12,14 @@
     <!-- and provide pipeline management capabilities -->
     
     <!-- Core Pipeline Tables and Structures -->
-    <include file="db/changelog/20251110169000-create-pipeline-stages-table.xml"/>
-    <include file="db/changelog/20251110169100-create-pipeline-items-table.xml"/>
-    <include file="db/changelog/20251110169200-create-follow-ups-table.xml"/>
-    <include file="db/changelog/20251110169300-create-pipeline-activities-table.xml"/>
-    <include file="db/changelog/20251110169400-insert-default-pipeline-stages.xml"/>
-    <include file="db/changelog/20251110169500-add-converted-at-to-pipeline-items.xml"/>
+    <include file="db/changelog/tenant/20251110169000-create-pipeline-stages-table.xml"/>
+    <include file="db/changelog/tenant/20251110169100-create-pipeline-items-table.xml"/>
+    <include file="db/changelog/tenant/20251110169200-create-follow-ups-table.xml"/>
+    <include file="db/changelog/tenant/20251110169300-create-pipeline-activities-table.xml"/>
+    <include file="db/changelog/tenant/20251110169400-insert-default-pipeline-stages.xml"/>
+    <include file="db/changelog/tenant/20251110169500-add-converted-at-to-pipeline-items.xml"/>
     
     <!-- Demo Data for Development and Testing (context: demo) -->
-    <include file="db/changelog/demo/master.xml"/>
+    <include file="db/changelog/tenant/demo/master.xml"/>
 
 </databaseChangeLog>

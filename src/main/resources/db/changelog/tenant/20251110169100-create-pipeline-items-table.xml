@@ -52,6 +52,13 @@
                 referencedColumnNames="id"
                 onDelete="RESTRICT"
                 onUpdate="CASCADE"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="pipeline_items" constraintName="fk_pipeline_items_stage"/>
+            <dropIndex tableName="pipeline_items" indexName="idx_pipeline_items_stage_id"/>
+            <dropIndex tableName="pipeline_items" indexName="idx_pipeline_items_lead_id"/>
+            <dropTable tableName="pipeline_items"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

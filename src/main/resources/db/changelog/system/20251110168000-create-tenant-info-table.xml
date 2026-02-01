@@ -49,6 +49,13 @@
         <createIndex tableName="tenant_info" indexName="idx_tenant_info_status" schemaName="public">
             <column name="status"/>
         </createIndex>
+
+        <rollback>
+            <dropIndex tableName="tenant_info" indexName="idx_tenant_info_status" schemaName="public"/>
+            <dropIndex tableName="tenant_info" indexName="idx_tenant_info_schema_name" schemaName="public"/>
+            <dropIndex tableName="tenant_info" indexName="idx_tenant_info_tenant_id" schemaName="public"/>
+            <dropTable tableName="tenant_info" schemaName="public"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

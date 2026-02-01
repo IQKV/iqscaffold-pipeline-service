@@ -12,6 +12,6 @@
     <!-- and provide tenant management infrastructure -->
     
     <!-- Tenant Management Infrastructure -->
-    <include file="db/changelog/20251110168000-create-tenant-info-table.xml"/>
+    <include file="db/changelog/system/20251110168000-create-tenant-info-table.xml"/>
 
 </databaseChangeLog>

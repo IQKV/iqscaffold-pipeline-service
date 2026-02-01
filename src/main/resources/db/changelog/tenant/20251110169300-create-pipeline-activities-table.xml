@@ -41,6 +41,13 @@
         <createIndex tableName="pipeline_activities" indexName="idx_pipeline_activities_created_at">
             <column name="created_at"/>
         </createIndex>
+
+        <rollback>
+            <dropIndex tableName="pipeline_activities" indexName="idx_pipeline_activities_created_at"/>
+            <dropIndex tableName="pipeline_activities" indexName="idx_pipeline_activities_type"/>
+            <dropIndex tableName="pipeline_activities" indexName="idx_pipeline_activities_lead_id"/>
+            <dropTable tableName="pipeline_activities"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

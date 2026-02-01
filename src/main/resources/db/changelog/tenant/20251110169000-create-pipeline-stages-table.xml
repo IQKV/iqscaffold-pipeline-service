@@ -5,29 +5,25 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
 
-    <changeSet id="20251110169200-create-follow-ups-table" author="iqscaffold">
-        <createTable tableName="follow_ups">
+    <changeSet id="20251110169000-create-pipeline-stages-table" author="iqscaffold">
+        <createTable tableName="pipeline_stages">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="lead_id" type="BIGINT">
+            <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="title" type="VARCHAR(200)">
+            <column name="description" type="VARCHAR(500)"/>
+            <column name="display_order" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(1000)"/>
-            <column name="due_date" type="TIMESTAMP">
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
-            <column name="priority" type="VARCHAR(20)" defaultValue="MEDIUM">
+            <column name="is_final_stage" type="BOOLEAN" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
-                <constraints nullable="false"/>
-            </column>
-            <column name="completed_at" type="TIMESTAMP"/>
-            <column name="assigned_to" type="VARCHAR(100)"/>
+            <column name="color_code" type="VARCHAR(20)"/>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -42,21 +38,19 @@
             </column>
         </createTable>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_lead_id">
-            <column name="lead_id"/>
+        <createIndex tableName="pipeline_stages" indexName="idx_pipeline_stages_display_order">
+            <column name="display_order"/>
         </createIndex>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_due_date">
-            <column name="due_date"/>
+        <createIndex tableName="pipeline_stages" indexName="idx_pipeline_stages_is_active">
+            <column name="is_active"/>
         </createIndex>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_status">
-            <column name="status"/>
-        </createIndex>
-
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_assigned_to">
-            <column name="assigned_to"/>
-        </createIndex>
+        <rollback>
+            <dropIndex tableName="pipeline_stages" indexName="idx_pipeline_stages_is_active"/>
+            <dropIndex tableName="pipeline_stages" indexName="idx_pipeline_stages_display_order"/>
+            <dropTable tableName="pipeline_stages"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

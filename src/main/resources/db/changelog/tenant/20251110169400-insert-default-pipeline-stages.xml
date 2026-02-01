@@ -71,6 +71,13 @@
             <column name="created_by" value="system"/>
             <column name="updated_by" value="system"/>
         </insert>
+
+        <rollback>
+            <!-- Remove default pipeline stages -->
+            <delete tableName="pipeline_stages">
+                <where>created_by = 'system' AND name IN ('New', 'Contacted', 'Qualified', 'Proposal', 'Won', 'Lost')</where>
+            </delete>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>
