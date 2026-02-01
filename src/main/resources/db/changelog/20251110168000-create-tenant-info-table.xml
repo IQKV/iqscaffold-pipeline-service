@@ -5,29 +5,25 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <changeSet id="003-create-follow-ups-table" author="iqscaffold">
-        <createTable tableName="follow_ups">
+    <changeSet id="20251110168000-create-tenant-info-table" author="iqscaffold">
+        <comment>Create tenant_info table for pipeline service tenant management (public schema)</comment>
+        
+        <createTable tableName="tenant_info" schemaName="public">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="lead_id" type="BIGINT">
+            <column name="tenant_id" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="tenant_name" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="title" type="VARCHAR(200)">
+            <column name="schema_name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(1000)"/>
-            <column name="due_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="priority" type="VARCHAR(20)" defaultValue="MEDIUM">
-                <constraints nullable="false"/>
-            </column>
-            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
-                <constraints nullable="false"/>
-            </column>
-            <column name="completed_at" type="TIMESTAMP"/>
-            <column name="assigned_to" type="VARCHAR(100)"/>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -42,20 +38,16 @@
             </column>
         </createTable>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_lead_id">
-            <column name="lead_id"/>
+        <createIndex tableName="tenant_info" indexName="idx_tenant_info_tenant_id" schemaName="public">
+            <column name="tenant_id"/>
         </createIndex>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_due_date">
-            <column name="due_date"/>
+        <createIndex tableName="tenant_info" indexName="idx_tenant_info_schema_name" schemaName="public">
+            <column name="schema_name"/>
         </createIndex>
 
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_status">
+        <createIndex tableName="tenant_info" indexName="idx_tenant_info_status" schemaName="public">
             <column name="status"/>
-        </createIndex>
-
-        <createIndex tableName="follow_ups" indexName="idx_follow_ups_assigned_to">
-            <column name="assigned_to"/>
         </createIndex>
     </changeSet>
 

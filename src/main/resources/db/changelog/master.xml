@@ -6,10 +6,8 @@
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <!-- ========================================= -->
-    <!-- PIPELINE SERVICE - ROOT MASTER CHANGELOG -->
+    <!-- PIPELINE SERVICE - CONSOLIDATED MIGRATIONS -->
     <!-- ========================================= -->
-    <!-- This file orchestrates all pipeline service migrations -->
-    <!-- Execution Order: System → Tenant → Demo Data -->
     
     <!-- SYSTEM MIGRATIONS (Public Schema) -->
     <!-- Tenant management infrastructure for pipeline service -->

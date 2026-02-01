@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <changeSet id="006-add-converted-at-to-pipeline-items" author="iqscaffold">
+    <changeSet id="20251110169500-add-converted-at-to-pipeline-items" author="iqscaffold">
         <addColumn tableName="pipeline_items">
             <column name="converted_at" type="TIMESTAMP">
                 <constraints nullable="true"/>
