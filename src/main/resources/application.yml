@@ -42,10 +42,10 @@ spring:
             provider: org.ehcache.jsr107.EhcacheCachingProvider
             uri: classpath:ehcache.xml
   
+  # Liquibase Configuration
+  # Disabled globally - migrations are run programmatically per schema via TenantLiquibaseRunner
   liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.xml
-    default-schema: public
+    enabled: false
   
   rabbitmq:
     host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_HOST:localhost}
@@ -74,16 +74,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info,metrics,prometheus,liquibase,openapi
       base-path: /actuator
   endpoint:
     health:
       show-details: when-authorized
       probes:
         enabled: true
-  metrics:
-    export:
-      prometheus:
+    liquibase:
+      enabled: true
+    prometheus:
         enabled: true
   tracing:
     sampling:
@@ -97,20 +97,6 @@ springdoc:
     operations-sorter: method
     tags-sorter: alpha
 
-iqscaffold:
-  tenant-id-header: ${IQSCAFFOLD_TENANT_ID_HEADER:X-Tenant-ID}
-  observability:
-    tracing:
-      enabled: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENABLED:true}
-      sampling-rate: ${IQSCAFFOLD_OBSERVABILITY_TRACING_SAMPLING_RATE:1.0}
-      endpoint: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENDPOINT:http://localhost:4317}
-  pipeline:
-    enable-auto-stage-progression: ${PIPELINE_ENABLE_AUTO_STAGE_PROGRESSION:false}
-    enable-follow-up-reminders: ${PIPELINE_ENABLE_FOLLOW_UP_REMINDERS:true}
-    enable-activity-tracking: ${PIPELINE_ENABLE_ACTIVITY_TRACKING:true}
-  services:
-    lead-service-url: ${LEAD_SERVICE_URL:http://lead-service:8080}
-
 logging:
   level:
     root: INFO
@@ -118,4 +104,22 @@ logging:
     org.springframework.web: INFO
     org.springframework.security: INFO
     org.hibernate.SQL: DEBUG
+    liquibase: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+iqscaffold:
+  tenant-id-header: ${IQSCAFFOLD_TENANT_ID_HEADER:X-Tenant-ID}
+  observability:
+    tracing:
+      enabled: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENABLED:true}
+      sampling-rate: ${IQSCAFFOLD_OBSERVABILITY_TRACING_SAMPLING_RATE:1.0}
+      endpoint: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENDPOINT:http://localhost:4317}
+  liquibase:
+    systemChangeLog: classpath:db/changelog/system/master.xml
+    tenantChangeLog: classpath:db/changelog/tenant/master.xml
+  pipeline:
+    enable-auto-stage-progression: ${PIPELINE_ENABLE_AUTO_STAGE_PROGRESSION:false}
+    enable-follow-up-reminders: ${PIPELINE_ENABLE_FOLLOW_UP_REMINDERS:true}
+    enable-activity-tracking: ${PIPELINE_ENABLE_ACTIVITY_TRACKING:true}
+  services:
+    lead-service-url: ${LEAD_SERVICE_URL:http://lead-service:8080}
