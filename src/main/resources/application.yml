@@ -58,8 +58,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${JWT_ISSUER_URI:http://user-service:8080}
-          jwk-set-uri: ${JWT_JWK_SET_URI:http://user-service:8080/.well-known/jwks.json}
+          issuer-uri: ${JWT_ISSUER_URI:http://iqscaffold-user-service:8080}
+          jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service:8080/.well-known/jwks.json}
 
 server:
   port: ${SERVER_PORT:8080}
