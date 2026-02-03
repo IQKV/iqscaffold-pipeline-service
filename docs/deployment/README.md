@@ -58,7 +58,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --values ./values-local.yaml \
   --set image.tag=wip \
   --set secrets.database.password=${INFRA_DATABASE_PASSWORD} \
-  --set secrets.rabbitmq.password=${INFRA_MESSAGING_PASSWORD} \
+  --set secrets.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --namespace iqscaffold-dev-env
 
 # Production (Tagged releases)
@@ -67,7 +67,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --values ./values-production.yaml \
   --set image.tag=${DRONE_TAG} \
   --set secrets.database.password=${INFRA_DATABASE_PASSWORD} \
-  --set secrets.rabbitmq.password=${INFRA_MESSAGING_PASSWORD} \
+  --set secrets.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --namespace iqscaffold-production-env
 ```
 
@@ -131,7 +131,7 @@ helm upgrade --install pipeline-service ./ \
 | Secret            | Environment Variable       | Required | Description             |
 | ----------------- | -------------------------- | -------- | ----------------------- |
 | Database Password | `INFRA_DATABASE_PASSWORD`  | ✅       | PostgreSQL password     |
-| RabbitMQ Password | `INFRA_MESSAGING_PASSWORD` | ✅       | Message broker password |
+| RabbitMQ Password | `INFRA_RABBITMQ_PASSWORD` | ✅       | Message broker password |
 
 #### External Services
 
