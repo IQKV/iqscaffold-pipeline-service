@@ -9,7 +9,6 @@ The IQ Scaffold Pipeline Service is deployed using Helm charts and automated CI/
 - Kubernetes 1.19+
 - Helm 3.2.0+
 - External infrastructure services (PostgreSQL, RabbitMQ)
-- User Service and Lead Service (for integration)
 
 ### Environments
 
@@ -46,8 +45,7 @@ The service uses a comprehensive Drone CI/CD pipeline with 10 stages:
 | `dev`       | -           | ✅ Staging     | Staging            |
 | Tags        | -           | ✅ Production  | Production         |
 
-<details>
-<summary>Deployment Commands</summary>
+#### Deployment Commands
 
 The pipeline uses these Helm commands for deployment:
 
@@ -55,10 +53,10 @@ The pipeline uses these Helm commands for deployment:
 # Development (WIP branches)
 helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service ./ \
   --values ./values.yaml \
-  --values ./values-local.yaml \
+  --values ./values-dev.yaml \
   --set image.tag=wip \
-  --set secrets.database.password=${INFRA_POSTGRESQL_PASSWORD} \
-  --set secrets.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
+  --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
+  --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --namespace iqscaffold-dev-env
 
 # Production (Tagged releases)
@@ -66,19 +64,31 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --values ./values.yaml \
   --values ./values-production.yaml \
   --set image.tag=${DRONE_TAG} \
-  --set secrets.database.password=${INFRA_POSTGRESQL_PASSWORD} \
-  --set secrets.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
+  --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
+  --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --namespace iqscaffold-production-env
 ```
 
-</details>
+#### Drone CI Secrets Configuration
+
+The following secrets must be configured in Drone CI for automated deployments:
+
+```bash
+# Configure Drone secrets (run once per repository)
+drone secret add --repository IQKV/iqscaffold-pipeline-service --name INFRA_POSTGRESQL_PASSWORD --data "your-postgresql-password"
+drone secret add --repository IQKV/iqscaffold-pipeline-service --name INFRA_RABBITMQ_PASSWORD --data "your-rabbitmq-password"
+```
+
+#### Environment Variable Mapping
+
+| Drone Secret                | Helm Parameter                      | Application Environment Variable | Description                      |
+| --------------------------- | ----------------------------------- | -------------------------------- | -------------------------------- |
+| `INFRA_POSTGRESQL_PASSWORD` | `infraServices.postgresql.password` | `SPRING_DATASOURCE_PASSWORD`     | PostgreSQL database password     |
+| `INFRA_RABBITMQ_PASSWORD`   | `infraServices.rabbitmq.password`   | `SPRING_RABBITMQ_PASSWORD`       | RabbitMQ message broker password |
 
 ### Manual Deployment
 
 #### Quick Start
-
-<details>
-<summary>Quick Start Commands</summary>
 
 ```bash
 # Clone Helm charts
@@ -87,60 +97,54 @@ cd charts/IQKV/iqscaffold-pipeline-service
 
 # Deploy to development
 helm upgrade --install pipeline-service ./ \
-  --values values-local.yaml \
-  --set secrets.database.password="your-db-password" \
-  --set secrets.rabbitmq.password="your-rabbitmq-password" \
+  --values values-dev.yaml \
+  --set infraServices.postgresql.password="your-postgresql-password" \
+  --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --namespace iqscaffold-dev-env \
   --create-namespace
 ```
-
-</details>
 
 #### Environment-Specific Deployments
 
-<details>
-<summary>Development Deployment</summary>
+#### Development
 
 ```bash
 helm upgrade --install pipeline-service ./ \
-  --values values-local.yaml \
+  --values values-dev.yaml \
+  --set infraServices.postgresql.password="your-postgresql-password" \
+  --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --namespace iqscaffold-dev-env \
   --create-namespace
 ```
 
-</details>
-
-<details>
-<summary>Production Deployment</summary>
+#### Production
 
 ```bash
 helm upgrade --install pipeline-service ./ \
   --values values-production.yaml \
-  --set secrets.database.password="${DB_PASSWORD}" \
-  --set secrets.rabbitmq.password="${RABBITMQ_PASSWORD}" \
+  --set infraServices.postgresql.password="${POSTGRESQL_PASSWORD}" \
+  --set infraServices.rabbitmq.password="${RABBITMQ_PASSWORD}" \
   --namespace iqscaffold-production-env \
   --create-namespace
 ```
-
-</details>
 
 ### Configuration
 
 #### Required Secrets
 
-| Secret            | Environment Variable       | Required | Description             |
-| ----------------- | -------------------------- | -------- | ----------------------- |
-| Database Password | `INFRA_POSTGRESQL_PASSWORD`  | ✅       | PostgreSQL password     |
-| RabbitMQ Password | `INFRA_RABBITMQ_PASSWORD` | ✅       | Message broker password |
+| Secret              | Environment Variable        | Required | Description                      |
+| ------------------- | --------------------------- | -------- | -------------------------------- |
+| PostgreSQL Password | `INFRA_POSTGRESQL_PASSWORD` | ✅       | PostgreSQL database password     |
+| RabbitMQ Password   | `INFRA_RABBITMQ_PASSWORD`   | ✅       | RabbitMQ message broker password |
 
 #### External Services
 
 The service connects to these external infrastructure components:
 
-- **PostgreSQL**: Pipeline data storage
-- **RabbitMQ**: Event messaging
-- **User Service**: Authentication and user management
-- **Lead Service**: Lead data integration
+- **PostgreSQL**: Pipeline data storage (database: `iqscaffold_pipeline`)
+- **RabbitMQ**: Event messaging for pipeline lifecycle events
+- **User Service**: JWT validation and user context
+- **Lead Service**: Lead data integration and conversion
 - **Contact Service**: Contact data integration
 
 #### Service Configuration
@@ -150,23 +154,20 @@ The service connects to these external infrastructure components:
 | Replicas       | 1        | 3                |
 | CPU Request    | 250m     | 500m             |
 | Memory Request | 384Mi    | 512Mi            |
+| CPU Limit      | 500m     | 1000m            |
+| Memory Limit   | 768Mi    | 1Gi              |
 | Autoscaling    | Disabled | 3-10 replicas    |
 | Ingress        | Disabled | Enabled with TLS |
 | Monitoring     | Enabled  | Enabled          |
 
-<details>
-<summary>Pipeline-Specific Configuration</summary>
+#### Pipeline-Specific Configuration
 
-| Setting                   | Dev  | Production | Description                    |
-| ------------------------- | ---- | ---------- | ------------------------------ |
-| Auto Stage Progression    | true | true       | Automatic pipeline advancement |
-| Follow-up Reminders       | true | true       | Automated reminder system      |
-| Activity Tracking         | true | true       | Track pipeline activities      |
-| Overdue Threshold (hours) | 2    | 24         | Follow-up overdue threshold    |
-| Reminder Interval (hours) | 1    | 4          | Reminder frequency             |
-| Max Follow-ups per Lead   | 20   | 50         | Maximum follow-ups allowed     |
-
-</details>
+| Setting                 | Dev   | Production | Description                    |
+| ----------------------- | ----- | ---------- | ------------------------------ |
+| Auto Stage Progression  | false | false      | Automatic pipeline advancement |
+| Follow-up Reminders     | true  | true       | Automated reminder system      |
+| Activity Tracking       | true  | true       | Track pipeline activities      |
+| Max Follow-ups per Lead | 20    | 50         | Maximum follow-ups allowed     |
 
 ### Monitoring & Health Checks
 
@@ -181,92 +182,63 @@ The service connects to these external infrastructure components:
 Production deployments include:
 
 - Prometheus ServiceMonitor
-- Alerting rules for service health
-- Grafana dashboards
-
-<details>
-<summary>Pipeline-Specific Alerts</summary>
-
-| Alert                              | Condition                           | Severity | Description                       |
-| ---------------------------------- | ----------------------------------- | -------- | --------------------------------- |
-| PipelineServiceDown                | Service unavailable > 1 minute      | Critical | Service is down                   |
-| PipelineServiceHighMemory          | Memory usage > 80%                  | Warning  | High memory consumption           |
-| PipelineServiceHighLatency         | 95th percentile latency > 2 seconds | Warning  | High response times               |
-| PipelineServiceDatabaseConnection  | No active database connections      | Critical | Database connectivity issues      |
-| PipelineServiceHighFollowUpOverdue | Overdue follow-ups > 100            | Warning  | High number of overdue follow-ups |
-
-</details>
+- Alerting rules for service health:
+  - **PipelineServiceDown**: Service unavailable for >1 minute
+  - **PipelineServiceHighMemory**: Memory usage >80% for >5 minutes
+  - **PipelineServiceHighLatency**: 95th percentile latency >2 seconds
+  - **PipelineServiceDatabaseConnectionFailure**: No active database connections
+  - **PipelineServiceHighFollowUpOverdue**: Overdue follow-ups >100
+- Grafana dashboards for pipeline metrics
 
 ### Troubleshooting
 
 #### Common Issues
 
-<details>
-<summary>Database Connection Failures</summary>
+1. **Database Connection Failures**
 
-```bash
-# Check service logs
-kubectl logs deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env
+   ```bash
+   kubectl logs deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env
+   ```
 
-# Check database connectivity
-kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-  nc -zv iqscaffold-infra-postgresql.iqscaffold-dev-env.svc.cluster.local 5432
-```
+2. **RabbitMQ Connection Issues**
 
-</details>
+   ```bash
+   # Check RabbitMQ connectivity
+   kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
+     nc -zv iqscaffold-infra-rabbitmq.iqscaffold-dev-env.svc.cluster.local 5672
 
-<details>
-<summary>Check Configuration</summary>
+   # Verify RabbitMQ password configuration
+   kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
+   ```
 
-```bash
-# View ConfigMap
-kubectl describe configmap iqscaffold-pipeline-service-config -n iqscaffold-dev-env
+3. **Check Configuration**
 
-# View Secrets
-kubectl describe secret iqscaffold-pipeline-service-secrets -n iqscaffold-dev-env
-```
+   ```bash
+   kubectl describe configmap iqscaffold-pipeline-service-config -n iqscaffold-dev-env
+   ```
 
-</details>
+4. **Test Health Endpoints**
 
-<details>
-<summary>Test Health Endpoints</summary>
+   ```bash
+   kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqscaffold-dev-env
+   curl http://localhost:8081/actuator/health
+   ```
 
-```bash
-# Port forward to access health endpoints
-kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqscaffold-dev-env
+5. **Pipeline Configuration Issues**
 
-# Test health endpoints
-curl http://localhost:8081/actuator/health
-curl http://localhost:8081/actuator/health/liveness
-curl http://localhost:8081/actuator/health/readiness
-curl http://localhost:8081/actuator/prometheus
-```
+   ```bash
+   # Check pipeline configuration
+   kubectl get configmap iqscaffold-pipeline-service-config -o yaml | grep PIPELINE_
+   ```
 
-</details>
-
-<details>
-<summary>Service Integration Issues</summary>
-
-```bash
-# Test User Service connectivity
-kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-  curl -v http://iqscaffold-user-service/.well-known/jwks.json
-
-# Test Lead Service connectivity
-kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-  curl -v http://iqscaffold-lead-service/actuator/health
-
-# Check RabbitMQ connectivity
-kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-  nc -zv iqscaffold-infra-rabbitmq.iqscaffold-dev-env.svc.cluster.local 5672
-```
-
-</details>
+6. **Service Integration Issues**
+   ```bash
+   # Test service connectivity
+   kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
+     curl http://iqscaffold-user-service/actuator/health
+   ```
 
 #### Rollback
-
-<details>
-<summary>Rollback Commands</summary>
 
 ```bash
 # Rollback to previous version
@@ -276,14 +248,13 @@ helm rollback iqscaffold-pipeline-service -n iqscaffold-production-env
 helm uninstall iqscaffold-pipeline-service -n iqscaffold-production-env
 ```
 
-</details>
-
 ### Security
 
 - All sensitive values passed via `--set` flags
 - TLS enabled in production
 - Network policies restrict pod communication
-- Non-root container execution
+- Non-root container execution (UID: 1001)
 - Read-only root filesystem in production
+- Minimal container capabilities (drop ALL)
 - JWT-based authentication integration
 - Multi-tenant data isolation
