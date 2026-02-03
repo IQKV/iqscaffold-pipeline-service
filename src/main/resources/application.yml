@@ -115,8 +115,13 @@ iqscaffold:
       sampling-rate: ${IQSCAFFOLD_OBSERVABILITY_TRACING_SAMPLING_RATE:1.0}
       endpoint: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENDPOINT:http://localhost:4317}
   liquibase:
+    # Changelog file paths
     systemChangeLog: classpath:db/changelog/system/master.xml
     tenantChangeLog: classpath:db/changelog/tenant/master.xml
+    
+    # Context filtering for migrations (comma-separated)
+    # Empty = run all changesets, "demo" = include demo data, "!demo" = exclude demo data
+    contexts: ${IQSCAFFOLD_LIQUIBASE_CONTEXTS:}
   pipeline:
     enable-auto-stage-progression: ${PIPELINE_ENABLE_AUTO_STAGE_PROGRESSION:false}
     enable-follow-up-reminders: ${PIPELINE_ENABLE_FOLLOW_UP_REMINDERS:true}

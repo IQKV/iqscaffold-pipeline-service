@@ -5,6 +5,12 @@ spring:
       hibernate:
         format_sql: false
 
+# Production environment overrides for IQ Scaffold properties
+iqscaffold:
+  liquibase:
+    # Exclude demo context to prevent demo data in production
+    contexts: "!demo"
+
 logging:
   level:
     root: WARN
