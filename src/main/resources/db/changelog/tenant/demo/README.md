@@ -4,7 +4,7 @@ This directory contains demo data migrations for the Pipeline Service, providing
 
 ## Demo Scenario Overview
 
-The demo data creates a comprehensive pipeline scenario with 3 pipeline items representing different stages of the sales process, along with associated follow-ups and activities.
+The demo data creates pipeline scenario with 3 pipeline items representing different stages of the sales process, along with associated follow-ups and activities.
 
 ### Demo Tenant Context
 - **Tenant ID**: `demo-tenant`
@@ -127,4 +127,4 @@ demo/
 - Follow-ups demonstrate different priority levels and assignment patterns
 - Values and dates are realistic and internally consistent
 
-This demo data provides a comprehensive foundation for testing pipeline functionality, UI development, and integration testing across the microservices ecosystem.
+This demo data provides foundation for testing pipeline functionality, UI development, and integration testing across the microservices ecosystem.

@@ -13,7 +13,7 @@
         <insert tableName="follow_ups">
             <column name="pipeline_item_id" valueComputed="(SELECT id FROM pipeline_items WHERE lead_id = 1001)"/>
             <column name="title" value="Proposal Presentation"/>
-            <column name="description" value="Present comprehensive solution proposal including enterprise features, implementation timeline, and pricing structure"/>
+            <column name="description" value="Present solution proposal including enterprise features, implementation timeline, and pricing structure"/>
             <column name="scheduled_date" valueDate="2025-01-25T14:00:00Z"/>
             <column name="status" value="SCHEDULED"/>
             <column name="priority" value="HIGH"/>

@@ -19,7 +19,7 @@
 
 ## Business Purpose
 
-A comprehensive pipeline management service that handles:
+CRM Pipeline management service that handles:
 
 - **Pipeline Stage Management** - Configurable sales pipeline stages with customizable workflows and stage transitions
 - **Lead Tracking** - Complete lead lifecycle tracking through pipeline stages with conversion analytics

@@ -6,7 +6,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
 
     <!-- Demo Pipeline Records -->
-    <!-- These migrations create comprehensive demo data for the pipeline service -->
+    <!-- These migrations create demo data for the pipeline service -->
     <!-- Context: demo - only runs when demo context is active -->
     
     <include file="db/changelog/tenant/demo/20250121000000-demo-pipeline-records.xml"/>
