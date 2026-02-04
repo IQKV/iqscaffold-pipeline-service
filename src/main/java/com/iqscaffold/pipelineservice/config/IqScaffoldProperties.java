@@ -9,6 +9,7 @@ public class IqScaffoldProperties {
   private final Observability observability = new Observability();
   private final Pipeline pipeline = new Pipeline();
   private final Services services = new Services();
+  private final Security security = new Security();
 
   public String getTenantIdHeader() {
     return tenantIdHeader;
@@ -28,6 +29,57 @@ public class IqScaffoldProperties {
 
   public Services getServices() {
     return services;
+  }
+
+  public Security getSecurity() {
+    return security;
+  }
+
+  public static class Security {
+    private final Jwt jwt = new Jwt();
+
+    public Jwt getJwt() {
+      return jwt;
+    }
+
+    public static class Jwt {
+      private String jwkSetUri;
+      private String issuer = "iqscaffold-user-service";
+      private String secretKey;
+      private String algorithm = "HS256";
+
+      public String getJwkSetUri() {
+        return jwkSetUri;
+      }
+
+      public void setJwkSetUri(String jwkSetUri) {
+        this.jwkSetUri = jwkSetUri;
+      }
+
+      public String getIssuer() {
+        return issuer;
+      }
+
+      public void setIssuer(String issuer) {
+        this.issuer = issuer;
+      }
+
+      public String getSecretKey() {
+        return secretKey;
+      }
+
+      public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+      }
+
+      public String getAlgorithm() {
+        return algorithm;
+      }
+
+      public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+      }
+    }
   }
 
   public static class Observability {

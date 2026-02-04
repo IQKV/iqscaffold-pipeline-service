@@ -44,19 +44,20 @@ The service uses Drone CI/CD pipeline with 10 stages:
 <details>
 <summary>🔐 Required Drone Secrets</summary>
 
-| Secret Name                       | Purpose                           | Used In                                    |
-| --------------------------------- | --------------------------------- | ------------------------------------------ |
-| `NEXUS_DEPLOYER_USERNAME`         | Nexus repository authentication   | Artifact publishing, dependency resolution |
-| `NEXUS_DEPLOYER_PASSWORD`         | Nexus repository authentication   | Artifact publishing, dependency resolution |
-| `SONAR_HOST`                      | SonarQube server URL              | Static code analysis                       |
-| `SONAR_TOKEN`                     | SonarQube authentication token    | Static code analysis                       |
-| `SLACK_WEBHOOK`                   | Slack notifications webhook URL   | Build status notifications                 |
-| `GITHUB_API_ACCESS_TOKEN`         | GitHub API access for releases    | Release creation, changelog generation     |
-| `SVC_CONTAINER_REGISTRY_USERNAME` | Container registry authentication | Docker image publishing                    |
-| `SVC_CONTAINER_REGISTRY_PASSWORD` | Container registry authentication | Docker image publishing                    |
-| `HELM_CHARTS_REPOSITORY`          | Helm charts repository URL        | Kubernetes deployments                     |
-| `INFRA_POSTGRESQL_PASSWORD`       | PostgreSQL database password      | Pipeline data storage                      |
-| `INFRA_RABBITMQ_PASSWORD`         | RabbitMQ message broker password  | Pipeline lifecycle event messaging         |
+| Secret Name                       | Purpose                              | Used In                                    |
+| --------------------------------- | ------------------------------------ | ------------------------------------------ |
+| `NEXUS_DEPLOYER_USERNAME`         | Nexus repository authentication      | Artifact publishing, dependency resolution |
+| `NEXUS_DEPLOYER_PASSWORD`         | Nexus repository authentication      | Artifact publishing, dependency resolution |
+| `SONAR_HOST`                      | SonarQube server URL                 | Static code analysis                       |
+| `SONAR_TOKEN`                     | SonarQube authentication token       | Static code analysis                       |
+| `SLACK_WEBHOOK`                   | Slack notifications webhook URL      | Build status notifications                 |
+| `GITHUB_API_ACCESS_TOKEN`         | GitHub API access for releases       | Release creation, changelog generation     |
+| `SVC_CONTAINER_REGISTRY_USERNAME` | Container registry authentication    | Docker image publishing                    |
+| `SVC_CONTAINER_REGISTRY_PASSWORD` | Container registry authentication    | Docker image publishing                    |
+| `HELM_CHARTS_REPOSITORY`          | Helm charts repository URL           | Kubernetes deployments                     |
+| `INFRA_POSTGRESQL_PASSWORD`       | PostgreSQL database password         | Pipeline data storage                      |
+| `INFRA_RABBITMQ_PASSWORD`         | RabbitMQ message broker password     | Pipeline lifecycle event messaging         |
+| `JWT_SECRET_KEY`                  | JWT symmetric validation key (HS256) | Request authentication validation          |
 
 </details>
 
@@ -84,6 +85,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --set image.tag=wip \
   --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
   --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
+  --set config.security.jwt.secretKey=${JWT_SECRET_KEY} \
   --namespace iqscaffold-dev-env
 
 # Production (Tagged releases)
@@ -93,6 +95,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --set image.tag=${DRONE_TAG} \
   --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
   --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
+  --set config.security.jwt.secretKey=${JWT_SECRET_KEY} \
   --namespace iqscaffold-production-env
 ```
 
@@ -106,6 +109,7 @@ The following secrets must be configured in Drone CI for automated deployments:
 # Configure Drone secrets (run once per repository)
 drone secret add --repository IQKV/iqscaffold-pipeline-service --name INFRA_POSTGRESQL_PASSWORD --data "your-postgresql-password"
 drone secret add --repository IQKV/iqscaffold-pipeline-service --name INFRA_RABBITMQ_PASSWORD --data "your-rabbitmq-password"
+drone secret add --repository IQKV/iqscaffold-pipeline-service --name JWT_SECRET_KEY --data "your-secure-symmetric-key"
 ```
 
 #### Environment Variable Mapping
@@ -114,6 +118,7 @@ drone secret add --repository IQKV/iqscaffold-pipeline-service --name INFRA_RABB
 | --------------------------- | ----------------------------------- | -------------------------------- | -------------------------------- |
 | `INFRA_POSTGRESQL_PASSWORD` | `infraServices.postgresql.password` | `SPRING_DATASOURCE_PASSWORD`     | PostgreSQL database password     |
 | `INFRA_RABBITMQ_PASSWORD`   | `infraServices.rabbitmq.password`   | `SPRING_RABBITMQ_PASSWORD`       | RabbitMQ message broker password |
+| `JWT_SECRET_KEY`            | `config.security.jwt.secretKey`     | `JWT_SECRET_KEY`                 | JWT symmetric validation secret  |
 
 ### Manual Deployment
 
@@ -129,6 +134,7 @@ helm upgrade --install pipeline-service ./ \
   --values values-dev.yaml \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
+  --set config.security.jwt.secretKey="your-secure-symmetric-key" \
   --namespace iqscaffold-dev-env \
   --create-namespace
 ```
@@ -142,6 +148,7 @@ helm upgrade --install pipeline-service ./ \
   --values values-dev.yaml \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
+  --set config.security.jwt.secretKey="your-secure-symmetric-key" \
   --namespace iqscaffold-dev-env \
   --create-namespace
 ```
@@ -153,6 +160,7 @@ helm upgrade --install pipeline-service ./ \
   --values values-production.yaml \
   --set infraServices.postgresql.password="${POSTGRESQL_PASSWORD}" \
   --set infraServices.rabbitmq.password="${RABBITMQ_PASSWORD}" \
+  --set config.security.jwt.secretKey="${JWT_SECRET_KEY}" \
   --namespace iqscaffold-production-env \
   --create-namespace
 ```

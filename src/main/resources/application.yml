@@ -109,6 +109,12 @@ logging:
 
 iqscaffold:
   tenant-id-header: ${IQSCAFFOLD_TENANT_ID_HEADER:X-Tenant-ID}
+  security:
+    jwt:
+      jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service:8080/.well-known/jwks.json}
+      issuer: ${JWT_ISSUER:iqscaffold-user-service}
+      secret-key: ${JWT_SECRET_KEY:change-me-in-production}
+      algorithm: HS256
   observability:
     tracing:
       enabled: ${IQSCAFFOLD_OBSERVABILITY_TRACING_ENABLED:true}
