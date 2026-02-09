@@ -37,6 +37,11 @@ spring:
           issuer-uri: http://iqscaffold-user-service:8080
           jwk-set-uri: http://iqscaffold-user-service:8080/.well-known/jwks.json
 
+iqscaffold:
+  liquibase:
+    system-schema:
+      enabled: false
+
 logging:
   level:
     root: INFO
