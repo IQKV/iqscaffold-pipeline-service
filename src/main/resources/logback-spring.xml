@@ -4,33 +4,107 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
-    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+    <springProfile name="local">
+        <!-- Local Development Configuration - Human Readable with verbose logging -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [tenantId=%X{tenantId:-NONE}] [correlationId=%X{correlationId:-NONE}] - %msg%n</pattern>
+            </encoder>
+        </appender>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [tenantId=%X{tenantId:-NONE}] [correlationId=%X{correlationId:-NONE}] - %msg%n</pattern>
-        </encoder>
-    </appender>
+        <logger name="com.iqscaffold.pipelineservice" level="DEBUG"/>
+        <logger name="org.springframework.security" level="DEBUG"/>
+        <logger name="org.springframework.web" level="DEBUG"/>
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+        <logger name="liquibase" level="INFO"/>
+        <logger name="com.zaxxer.hikari" level="DEBUG"/>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [tenantId=%X{tenantId:-NONE}] [correlationId=%X{correlationId:-NONE}] - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <springProfile name="local,staging">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <!-- Development Environment (Kubernetes) - Human Readable for easier debugging -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [tenantId=%X{tenantId:-NONE}] [correlationId=%X{correlationId:-NONE}] - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="com.iqscaffold.pipelineservice" level="DEBUG"/>
+        <logger name="com.iqscaffold.pipelineservice.scheduler" level="DEBUG"/>
+        <logger name="com.iqscaffold.pipelineservice.followup" level="DEBUG"/>
+        <logger name="org.springframework.security" level="INFO"/>
+        <logger name="org.springframework.web" level="INFO"/>
+        <logger name="org.springframework.scheduling" level="DEBUG"/>
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+        <logger name="liquibase" level="INFO"/>
+        <logger name="com.zaxxer.hikari" level="INFO"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="staging">
+        <!-- Staging Configuration - JSON Format -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <fieldName>timestamp</fieldName>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <version/>
+                    <logLevel>
+                        <fieldName>level</fieldName>
+                    </logLevel>
+                    <loggerName>
+                        <fieldName>logger</fieldName>
+                    </loggerName>
+                    <threadName>
+                        <fieldName>thread</fieldName>
+                    </threadName>
+                    <mdc>
+                        <includeMdcKeyName>tenantId</includeMdcKeyName>
+                        <includeMdcKeyName>correlationId</includeMdcKeyName>
+                        <includeMdcKeyName>userId</includeMdcKeyName>
+                        <includeMdcKeyName>username</includeMdcKeyName>
+                    </mdc>
+                    <arguments/>
+                    <message>
+                        <fieldName>message</fieldName>
+                    </message>
+                    <stackTrace>
+                        <fieldName>stackTrace</fieldName>
+                    </stackTrace>
+                    <pattern>
+                        <pattern>
+                            {
+                                "service": "pipeline-service",
+                                "environment": "staging"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+        </appender>
+
+        <logger name="com.iqscaffold.pipelineservice" level="INFO"/>
+        <logger name="org.springframework.security" level="WARN"/>
+        <logger name="org.hibernate.SQL" level="WARN"/>
+        <logger name="liquibase" level="INFO"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
 
     <springProfile name="production">
+        <!-- Production Configuration - JSON Format with Minimal Logging -->
         <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
@@ -65,7 +139,7 @@
                         <pattern>
                             {
                                 "service": "pipeline-service",
-                                "environment": "${SPRING_PROFILES_ACTIVE:-local}"
+                                "environment": "production"
                             }
                         </pattern>
                     </pattern>
@@ -73,12 +147,13 @@
             </encoder>
         </appender>
 
-        <root level="INFO">
+        <logger name="com.iqscaffold.pipelineservice" level="WARN"/>
+        <logger name="org.springframework.security" level="ERROR"/>
+        <logger name="org.hibernate.SQL" level="ERROR"/>
+        <logger name="liquibase" level="WARN"/>
+
+        <root level="WARN">
             <appender-ref ref="JSON"/>
         </root>
     </springProfile>
-
-    <logger name="com.iqscaffold.pipelineservice" level="DEBUG"/>
-    <logger name="org.springframework.security" level="INFO"/>
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
 </configuration>
