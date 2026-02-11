@@ -1,14 +1,27 @@
+# Production Environment Configuration
+
 spring:
   jpa:
-    show-sql: false
     properties:
       hibernate:
         format_sql: false
 
-# Production environment overrides for IQ Scaffold properties
 iqscaffold:
+  database:
+    url: ${IQSCAFFOLD_DATABASE_URL}
+    username: ${IQSCAFFOLD_DATABASE_USERNAME}
+    password: ${IQSCAFFOLD_DATABASE_PASSWORD}
+    pool:
+      maximum-size: 50
+      minimum-idle: 10
+  
+  messaging:
+    rabbitmq:
+      host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_HOST}
+      username: ${IQSCAFFOLD_MESSAGING_RABBITMQ_USERNAME}
+      password: ${IQSCAFFOLD_MESSAGING_RABBITMQ_PASSWORD}
+  
   liquibase:
-    # Exclude demo context to prevent demo data in production
     contexts: "!demo"
 
 logging:

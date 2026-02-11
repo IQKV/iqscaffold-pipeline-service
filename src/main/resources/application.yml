@@ -8,9 +8,9 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: ${IQSCAFFOLD_DATABASE_URL:jdbc:postgresql://localhost:5436/iqscaffold_pipeline_local}
-    username: ${IQSCAFFOLD_DATABASE_USERNAME:iqscaffold_pipeline}
-    password: ${IQSCAFFOLD_DATABASE_PASSWORD:iqscaffold_password}
+    url: ${iqscaffold.database.url}
+    username: ${iqscaffold.database.username}
+    password: ${iqscaffold.database.password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -48,11 +48,11 @@ spring:
     enabled: false
   
   rabbitmq:
-    host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_HOST:localhost}
-    port: ${IQSCAFFOLD_MESSAGING_RABBITMQ_PORT:5672}
-    username: ${IQSCAFFOLD_MESSAGING_RABBITMQ_USERNAME:iqscaffold}
-    password: ${IQSCAFFOLD_MESSAGING_RABBITMQ_PASSWORD:iqscaffold_password}
-    virtual-host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_VHOST:/}
+    host: ${iqscaffold.messaging.rabbitmq.host}
+    port: ${iqscaffold.messaging.rabbitmq.port}
+    username: ${iqscaffold.messaging.rabbitmq.username}
+    password: ${iqscaffold.messaging.rabbitmq.password}
+    virtual-host: ${iqscaffold.messaging.rabbitmq.virtual-host}
   
   security:
     oauth2:
@@ -111,6 +111,36 @@ logging:
 
 iqscaffold:
   tenant-id-header: ${IQSCAFFOLD_TENANT_ID_HEADER:X-Tenant-ID}
+  
+  # Database Configuration
+  database:
+    url: ${IQSCAFFOLD_DATABASE_URL:jdbc:postgresql://localhost:5436/iqscaffold_pipeline_local}
+    username: ${IQSCAFFOLD_DATABASE_USERNAME:iqscaffold_pipeline}
+    password: ${IQSCAFFOLD_DATABASE_PASSWORD:iqscaffold_password}
+    pool:
+      maximum-size: 10
+      minimum-idle: 5
+      connection-timeout: PT30S
+      idle-timeout: PT10M
+      max-lifetime: PT30M
+    migration:
+      enabled: true
+      contexts: ${IQSCAFFOLD_LIQUIBASE_CONTEXTS:}
+      validate-on-migrate: true
+  
+  # Messaging Configuration
+  messaging:
+    rabbitmq:
+      host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_HOST:localhost}
+      port: ${IQSCAFFOLD_MESSAGING_RABBITMQ_PORT:5672}
+      username: ${IQSCAFFOLD_MESSAGING_RABBITMQ_USERNAME:iqscaffold}
+      password: ${IQSCAFFOLD_MESSAGING_RABBITMQ_PASSWORD:iqscaffold_password}
+      virtual-host: ${IQSCAFFOLD_MESSAGING_RABBITMQ_VHOST:/}
+      connection-timeout: PT30S
+      requested-heartbeat: PT60S
+      publisher-confirms: true
+      publisher-returns: true
+  
   security:
     jwt:
       jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service:8080/.well-known/jwks.json}
