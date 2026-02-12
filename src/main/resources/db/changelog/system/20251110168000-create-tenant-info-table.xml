@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
 
-    <changeSet id="20251110168000-create-tenant-info-table" author="iqscaffold" context="public">
+    <changeSet id="20251110168000-create-tenant-info-table" author="iqscaffold">
         <comment>Create tenant_info table for pipeline service tenant management (public schema)</comment>
         
         <createTable tableName="tenant_info" schemaName="public">
