@@ -17,6 +17,12 @@ services:
       file: compose.base.yaml
       service: rabbitmq-pipeline
 
+  # Pipeline Service - Full platform run including build phase
+  pipeline-service:
+    extends:
+      file: compose.base.yaml
+      service: pipeline-service
+
 networks:
   pipeline-service-network:
     name: iqscaffold-pipeline-network-dev
@@ -29,3 +35,7 @@ volumes:
     name: iqscaffold_pipeline_redis_data_dev
   rabbitmq_pipeline_data:
     name: iqscaffold_pipeline_rabbitmq_data_dev
+  pipeline_logs:
+    name: iqscaffold_pipeline_logs_dev
+  pipeline_tmp:
+    name: iqscaffold_pipeline_tmp_dev
