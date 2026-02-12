@@ -1,7 +1,7 @@
 services:
   # PostgreSQL Database for Pipeline Service - Local Development
   postgres-pipeline:
-    image: postgres:15.8-alpine
+    image: postgres:17-alpine
     container_name: iqscaffold-pipeline-postgres-dev
     environment:
       POSTGRES_DB: iqscaffold_pipeline_local
