@@ -52,7 +52,9 @@ public class ContactEventListener {
    *
    * @param event the contact created event
    */
-  @RabbitListener(queues = RabbitMQConfig.CONTACT_CREATED_QUEUE)
+  @RabbitListener(
+      queues = RabbitMQConfig.CONTACT_CREATED_QUEUE,
+      containerFactory = "rabbitListenerContainerFactory")
   @Transactional
   public void handleContactCreated(final ContactEvent event) {
     log.info("Received contact.created event: eventId={}, contactId={}, tenantId={}",

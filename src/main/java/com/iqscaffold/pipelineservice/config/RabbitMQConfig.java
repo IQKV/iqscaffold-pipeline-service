@@ -108,6 +108,7 @@ public class RabbitMQConfig {
     final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
     factory.setConnectionFactory(connectionFactory);
     factory.setMessageConverter(jsonMessageConverter());
+    factory.setMissingQueuesFatal(false);
     return factory;
   }
 }

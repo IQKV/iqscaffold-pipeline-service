@@ -43,7 +43,9 @@ public class LeadEventListener {
    *
    * @param event the lead created event
    */
-  @RabbitListener(queues = RabbitMQConfig.LEAD_CREATED_QUEUE)
+  @RabbitListener(
+      queues = RabbitMQConfig.LEAD_CREATED_QUEUE,
+      containerFactory = "rabbitListenerContainerFactory")
   @Transactional
   public void handleLeadCreated(final LeadEvent event) {
     log.info("Received lead.created event: {}", event);
@@ -93,7 +95,9 @@ public class LeadEventListener {
    *
    * @param event the lead deleted event
    */
-  @RabbitListener(queues = RabbitMQConfig.LEAD_DELETED_QUEUE)
+  @RabbitListener(
+      queues = RabbitMQConfig.LEAD_DELETED_QUEUE,
+      containerFactory = "rabbitListenerContainerFactory")
   @Transactional
   public void handleLeadDeleted(final LeadEvent event) {
     log.info("Received lead.deleted event: {}", event);
