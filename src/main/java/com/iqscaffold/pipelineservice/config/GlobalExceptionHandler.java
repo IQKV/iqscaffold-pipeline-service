@@ -200,7 +200,8 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ProblemDetail> handleGenericException(
       final Exception ex,
       final HttpServletRequest request) {
-    logger.error("Unexpected error occurred", ex);
+    // Log the full exception with stack trace and request context
+    logger.error("Unexpected error occurred at {}: {}", request.getRequestURI(), ex.getMessage(), ex);
 
     ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -210,6 +211,7 @@ public class GlobalExceptionHandler {
     problemDetail.setTitle("Internal Server Error");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
+    problemDetail.setProperty("exceptionType", ex.getClass().getSimpleName());
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
   }
