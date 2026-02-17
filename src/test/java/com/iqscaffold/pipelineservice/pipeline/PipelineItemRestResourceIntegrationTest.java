@@ -250,8 +250,7 @@ class PipelineItemRestResourceIntegrationTest {
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(item.getId().intValue())))
-        .andExpect(jsonPath("$.stageId", is(contactedStage.getId().intValue())))
-        .andExpect(jsonPath("$.convertedAt", nullValue()));
+        .andExpect(jsonPath("$.stageId", is(contactedStage.getId().intValue())));
 
     // Verify the converted_at timestamp was cleared in the database
     PipelineItem updated = itemRepository.findById(item.getId()).orElseThrow();

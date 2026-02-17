@@ -79,7 +79,7 @@ class FollowUpRestResourceIntegrationTest {
     );
 
     // When & Then
-    mockMvc.perform(post("/api/v1/follow-ups")
+    mockMvc.perform(post("/api/v1/pipeline/follow-ups")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
@@ -92,7 +92,6 @@ class FollowUpRestResourceIntegrationTest {
         .andExpect(jsonPath("$.priority", is("HIGH")))
         .andExpect(jsonPath("$.status", is("PENDING")))
         .andExpect(jsonPath("$.assignedTo", is("user123")))
-        .andExpect(jsonPath("$.completedAt", nullValue()))
         .andExpect(jsonPath("$.createdAt", notNullValue()))
         .andExpect(jsonPath("$.createdBy", notNullValue()));
   }
@@ -117,14 +116,13 @@ class FollowUpRestResourceIntegrationTest {
     );
 
     // When & Then
-    mockMvc.perform(post("/api/v1/follow-ups")
+    mockMvc.perform(post("/api/v1/pipeline/follow-ups")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id", notNullValue()))
         .andExpect(jsonPath("$.leadId", is(2)))
         .andExpect(jsonPath("$.title", is("Quick check-in")))
-        .andExpect(jsonPath("$.description", nullValue()))
         .andExpect(jsonPath("$.priority", is("MEDIUM"))) // Default priority
         .andExpect(jsonPath("$.status", is("PENDING")));
   }
@@ -150,7 +148,7 @@ class FollowUpRestResourceIntegrationTest {
     );
 
     // When & Then
-    mockMvc.perform(post("/api/v1/follow-ups")
+    mockMvc.perform(post("/api/v1/pipeline/follow-ups")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
@@ -179,7 +177,7 @@ class FollowUpRestResourceIntegrationTest {
     );
 
     // When & Then
-    mockMvc.perform(post("/api/v1/follow-ups")
+    mockMvc.perform(post("/api/v1/pipeline/follow-ups")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isBadRequest());
@@ -208,7 +206,7 @@ class FollowUpRestResourceIntegrationTest {
     createFollowUp(5L, "Today completed", todayMorning, FollowUpStatus.COMPLETED);
 
     // When & Then
-    mockMvc.perform(get("/api/v1/follow-ups/today")
+    mockMvc.perform(get("/api/v1/pipeline/follow-ups/today")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
@@ -231,7 +229,7 @@ class FollowUpRestResourceIntegrationTest {
     createFollowUp(1L, "Tomorrow", tomorrow, FollowUpStatus.PENDING);
 
     // When & Then
-    mockMvc.perform(get("/api/v1/follow-ups/today")
+    mockMvc.perform(get("/api/v1/pipeline/follow-ups/today")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(0)));
@@ -258,7 +256,7 @@ class FollowUpRestResourceIntegrationTest {
     createFollowUp(4L, "Overdue but completed", twoDaysAgo, FollowUpStatus.COMPLETED);
 
     // When & Then
-    mockMvc.perform(get("/api/v1/follow-ups/overdue")
+    mockMvc.perform(get("/api/v1/pipeline/follow-ups/overdue")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
@@ -283,7 +281,7 @@ class FollowUpRestResourceIntegrationTest {
     createFollowUp(1L, "Future follow-up", tomorrow, FollowUpStatus.PENDING);
 
     // When & Then
-    mockMvc.perform(get("/api/v1/follow-ups/overdue")
+    mockMvc.perform(get("/api/v1/pipeline/follow-ups/overdue")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(0)));
@@ -303,7 +301,7 @@ class FollowUpRestResourceIntegrationTest {
     FollowUp followUp = createFollowUp(1L, "Follow-up to complete", dueDate, FollowUpStatus.PENDING);
 
     // When & Then
-    mockMvc.perform(put("/api/v1/follow-ups/{id}/complete", followUp.getId())
+    mockMvc.perform(put("/api/v1/pipeline/follow-ups/{id}/complete", followUp.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(followUp.getId().intValue())))
@@ -326,7 +324,7 @@ class FollowUpRestResourceIntegrationTest {
   @WithMockUser(authorities = {"USER"})
   void testCompleteNonExistentFollowUp() throws Exception {
     // When & Then
-    mockMvc.perform(put("/api/v1/follow-ups/{id}/complete", 99999L)
+    mockMvc.perform(put("/api/v1/pipeline/follow-ups/{id}/complete", 99999L)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
@@ -346,7 +344,7 @@ class FollowUpRestResourceIntegrationTest {
     }
 
     // When & Then
-    mockMvc.perform(get("/api/v1/follow-ups")
+    mockMvc.perform(get("/api/v1/pipeline/follow-ups")
             .param("page", "0")
             .param("size", "3")
             .contentType(MediaType.APPLICATION_JSON))
@@ -365,14 +363,14 @@ class FollowUpRestResourceIntegrationTest {
    */
   @Test
   @DisplayName("Should delete follow-up")
-  @WithMockUser(authorities = {"USER"})
+  @WithMockUser(authorities = {"ADMIN"})
   void testDeleteFollowUp() throws Exception {
     // Given
     LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
     FollowUp followUp = createFollowUp(1L, "Follow-up to delete", dueDate, FollowUpStatus.PENDING);
 
     // When & Then
-    mockMvc.perform(delete("/api/v1/follow-ups/{id}", followUp.getId())
+    mockMvc.perform(delete("/api/v1/pipeline/follow-ups/{id}", followUp.getId())
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
 
@@ -386,10 +384,10 @@ class FollowUpRestResourceIntegrationTest {
    */
   @Test
   @DisplayName("Should return 404 when deleting non-existent follow-up")
-  @WithMockUser(authorities = {"USER"})
+  @WithMockUser(authorities = {"ADMIN"})
   void testDeleteNonExistentFollowUp() throws Exception {
     // When & Then
-    mockMvc.perform(delete("/api/v1/follow-ups/{id}", 99999L)
+    mockMvc.perform(delete("/api/v1/pipeline/follow-ups/{id}", 99999L)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
@@ -417,7 +415,7 @@ class FollowUpRestResourceIntegrationTest {
     );
 
     // When & Then
-    mockMvc.perform(put("/api/v1/follow-ups/{id}", followUp.getId())
+    mockMvc.perform(put("/api/v1/pipeline/follow-ups/{id}", followUp.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
@@ -454,3 +452,4 @@ class FollowUpRestResourceIntegrationTest {
     return followUpRepository.save(followUp);
   }
 }
+

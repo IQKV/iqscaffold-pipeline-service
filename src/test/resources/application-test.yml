@@ -36,6 +36,13 @@ spring:
         jwt:
           issuer-uri: http://iqscaffold-user-service:8080
           jwk-set-uri: http://iqscaffold-user-service:8080/.well-known/jwks.json
+  
+  web:
+    resources:
+      add-mappings: false
+  
+  mvc:
+    throw-exception-if-no-handler-found: false
 
 iqscaffold:
   liquibase:

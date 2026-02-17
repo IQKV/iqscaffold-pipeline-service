@@ -86,7 +86,7 @@ class DashboardRestResourceIntegrationTest {
     createPipelineItem(6L, lostStage.getId(), LocalDateTime.now());
 
     // When & Then
-    mockMvc.perform(get("/api/v1/dashboard/stats")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/stats")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.leadsByStage", notNullValue()))
@@ -113,7 +113,7 @@ class DashboardRestResourceIntegrationTest {
     // Given - No pipeline items
 
     // When & Then
-    mockMvc.perform(get("/api/v1/dashboard/stats")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/stats")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.leadsByStage", notNullValue()))
@@ -145,7 +145,7 @@ class DashboardRestResourceIntegrationTest {
     String endDate = now.toLocalDate().toString();
 
     // Note: Date filtering is applied in the service layer
-    mockMvc.perform(get("/api/v1/dashboard/stats")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/stats")
             .param("startDate", startDate)
             .param("endDate", endDate)
             .contentType(MediaType.APPLICATION_JSON))
@@ -168,7 +168,7 @@ class DashboardRestResourceIntegrationTest {
     createPipelineItem(2L, contactedStage.getId(), LocalDateTime.now());
 
     // When & Then - leadsBySource will be empty since Lead Service is not available in test
-    mockMvc.perform(get("/api/v1/dashboard/stats")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/stats")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.leadsBySource", notNullValue()))
@@ -193,7 +193,7 @@ class DashboardRestResourceIntegrationTest {
     createPipelineItem(5L, lostStage.getId(), LocalDateTime.now().minusDays(1));
 
     // When & Then - 2 out of 5 leads are Won = 40% conversion rate
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.conversionRate", is(40.0)))
@@ -212,7 +212,7 @@ class DashboardRestResourceIntegrationTest {
     // Given - No pipeline items
 
     // When & Then
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.conversionRate", is(0.0)))
@@ -247,7 +247,7 @@ class DashboardRestResourceIntegrationTest {
 
     // When & Then - Average time to convert should be calculated
     // Note: The actual value depends on when @CreationTimestamp sets the timestamp
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.averageTimeToConvert", notNullValue()))
@@ -277,7 +277,7 @@ class DashboardRestResourceIntegrationTest {
     pipelineItemRepository.save(item3);
 
     // When & Then
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.stageVelocity", notNullValue()))
@@ -308,7 +308,7 @@ class DashboardRestResourceIntegrationTest {
     String startDate = now.minusDays(7).toLocalDate().toString();
     String endDate = now.toLocalDate().toString();
 
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .param("startDate", startDate)
             .param("endDate", endDate)
             .contentType(MediaType.APPLICATION_JSON))
@@ -327,7 +327,7 @@ class DashboardRestResourceIntegrationTest {
   @DisplayName("Should require authentication for dashboard stats")
   void testGetDashboardStatsRequiresAuth() throws Exception {
     // When & Then - No authentication
-    mockMvc.perform(get("/api/v1/dashboard/stats")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/stats")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -340,7 +340,7 @@ class DashboardRestResourceIntegrationTest {
   @DisplayName("Should require authentication for conversion metrics")
   void testGetConversionMetricsRequiresAuth() throws Exception {
     // When & Then - No authentication
-    mockMvc.perform(get("/api/v1/dashboard/conversion")
+    mockMvc.perform(get("/api/v1/pipeline/dashboard/conversion")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized());
   }
@@ -369,3 +369,4 @@ class DashboardRestResourceIntegrationTest {
     return pipelineItemRepository.save(item);
   }
 }
+
