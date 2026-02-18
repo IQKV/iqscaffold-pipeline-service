@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for Pipeline Stage management operations.
- * Tests Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6
  */
 @SpringBootTest
 @AutoConfigureMockMvc

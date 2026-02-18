@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for Follow-Up management operations.
- * Tests Requirements: 5.1, 5.2, 5.3, 5.4, 5.7
  */
 @SpringBootTest
 @AutoConfigureMockMvc
