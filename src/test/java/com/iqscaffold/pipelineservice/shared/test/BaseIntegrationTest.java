@@ -1,6 +1,9 @@
 package com.iqscaffold.pipelineservice.shared.test;
 
+import com.iqscaffold.pipelineservice.config.TestJacksonConfiguration;
+import com.iqscaffold.pipelineservice.config.TestWebClientConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
@@ -15,8 +18,10 @@ import org.springframework.test.context.TestPropertySource;
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",
     "logging.level.org.springframework.web=DEBUG",
-    "logging.level.com.iqscaffold=DEBUG"
+    "logging.level.com.iqscaffold=DEBUG",
+    "spring.security.oauth2.resourceserver.jwt.issuer-uri="
 })
+@Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class})
 public abstract class BaseIntegrationTest {
   // Common test configuration and utilities can be added here
 }

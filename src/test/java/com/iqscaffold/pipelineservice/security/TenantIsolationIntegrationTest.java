@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iqscaffold.pipelineservice.config.TestJacksonConfiguration;
+import com.iqscaffold.pipelineservice.config.TestWebClientConfiguration;
 import com.iqscaffold.pipelineservice.followup.FollowUp;
 import com.iqscaffold.pipelineservice.followup.FollowUpPriority;
 import com.iqscaffold.pipelineservice.followup.FollowUpRepository;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -44,8 +47,9 @@ import org.springframework.transaction.annotation.Transactional;
  * See backend/TENANT_ISOLATION_TEST_SOLUTION.md for implementation details.
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
+@Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class})
 @Transactional
 @Disabled("Temporarily disabled - requires tenant schema configuration.")
 class TenantIsolationIntegrationTest {

@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 
+import com.iqscaffold.pipelineservice.config.TestJacksonConfiguration;
+import com.iqscaffold.pipelineservice.config.TestWebClientConfiguration;
 import com.iqscaffold.pipelineservice.pipeline.PipelineItem;
 import com.iqscaffold.pipelineservice.pipeline.PipelineItemRepository;
 import com.iqscaffold.pipelineservice.pipeline.PipelineStage;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,8 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for Dashboard statistics and metrics operations.
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
+@Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class})
 @Transactional
 class DashboardRestResourceIntegrationTest {
 
