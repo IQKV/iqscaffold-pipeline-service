@@ -3,7 +3,6 @@ package com.iqscaffold.pipelineservice.pipeline;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,16 +19,15 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for Pipeline Item management operations.
- * Tests Requirements: 4.1, 4.2, 4.3, 4.6
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -49,10 +47,10 @@ class PipelineItemRestResourceIntegrationTest {
   @Autowired
   private PipelineStageRepository stageRepository;
 
-  @MockBean
+  @MockitoBean
   private RabbitTemplate rabbitTemplate;
 
-  @MockBean
+  @MockitoBean
   private org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory;
 
   private PipelineStage newStage;

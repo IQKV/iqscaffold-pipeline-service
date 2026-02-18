@@ -17,18 +17,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for Dashboard statistics and metrics operations.
- * Tests Requirements: 8.1, 8.2, 8.3, 8.4
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,7 +43,7 @@ class DashboardRestResourceIntegrationTest {
   @Autowired
   private PipelineStageRepository stageRepository;
 
-  @MockBean
+  @MockitoBean
   private org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory;
 
   private PipelineStage newStage;
