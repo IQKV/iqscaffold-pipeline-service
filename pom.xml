@@ -242,6 +242,7 @@
                         <exclude>**/*Constants$*.class</exclude>
                         <exclude>**/*Status.class</exclude>
                         <exclude>**/*Stage.class</exclude>
+                        <exclude>**/*Event.class</exclude>
                         <exclude>**/*Exception.class</exclude>
                         <exclude>**/*RestResource.class</exclude>
                         <exclude>**/*Filter.class</exclude>
