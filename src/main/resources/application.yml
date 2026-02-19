@@ -53,6 +53,25 @@ spring:
     username: ${iqscaffold.messaging.rabbitmq.username}
     password: ${iqscaffold.messaging.rabbitmq.password}
     virtual-host: ${iqscaffold.messaging.rabbitmq.virtual-host}
+    template:
+      mandatory: true
+      retry:
+        enabled: true
+        initial-interval: 1000ms
+        max-attempts: 3
+        max-interval: 10000ms
+        multiplier: 2.0
+    listener:
+      simple:
+        acknowledge-mode: auto
+        prefetch: 10
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 1000ms
+          max-attempts: 3
+          max-interval: 10000ms
+          multiplier: 2.0
   
   security:
     oauth2:
