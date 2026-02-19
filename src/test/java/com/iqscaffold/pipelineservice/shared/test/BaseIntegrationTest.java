@@ -11,7 +11,12 @@ import org.springframework.test.context.TestPropertySource;
  * Base class for integration tests.
  * Provides common configuration for all integration tests.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = {
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
+    }
+)
 @ActiveProfiles("test")
 @TestPropertySource(properties = {
     "spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
