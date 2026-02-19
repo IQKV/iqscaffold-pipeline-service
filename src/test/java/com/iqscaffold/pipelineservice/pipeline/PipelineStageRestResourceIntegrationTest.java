@@ -33,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Integration tests for Pipeline Stage management operations.
  */
-@SpringBootTest
+@SpringBootTest(properties = {
+    "spring.autoconfigure.exclude=org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration",
+    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
+})
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 @Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class})
