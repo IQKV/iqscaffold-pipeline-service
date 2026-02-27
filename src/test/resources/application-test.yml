@@ -1,4 +1,7 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  
   datasource:
     url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
     driver-class-name: org.h2.Driver
@@ -44,6 +47,9 @@ spring:
 iqscaffold:
   liquibase:
     system-schema:
+      enabled: false
+  bootstrap:
+    default-tenant-schema:
       enabled: false
 
 logging:
