@@ -24,7 +24,7 @@
             <column name="stage_id" valueComputed="(SELECT id FROM pipeline_stages WHERE name = 'Qualified')"/>
             <column name="expected_value" value="85000.00"/>
             <column name="probability" value="75.00"/>
-            <column name="entered_stage_at" valueDate="2024-12-18T10:30:00Z"/>
+            <column name="entered_stage_at" valueDate="2024-12-18T10:30:00"/>
             <column name="days_in_stage" value="34"/>
             <column name="converted_at" value=""/>
             <column name="created_by" value="admin"/>
@@ -38,9 +38,9 @@
             <column name="stage_id" valueComputed="(SELECT id FROM pipeline_stages WHERE name = 'Won')"/>
             <column name="expected_value" value="180000.00"/>
             <column name="probability" value="100.00"/>
-            <column name="entered_stage_at" valueDate="2024-11-15T16:30:00Z"/>
+            <column name="entered_stage_at" valueDate="2024-11-15T16:30:00"/>
             <column name="days_in_stage" value="67"/>
-            <column name="converted_at" valueDate="2024-11-15T16:30:00Z"/>
+            <column name="converted_at" valueDate="2024-11-15T16:30:00"/>
             <column name="created_by" value="admin"/>
             <column name="updated_by" value="billing"/>
         </insert>
@@ -52,7 +52,7 @@
             <column name="stage_id" valueComputed="(SELECT id FROM pipeline_stages WHERE name = 'New')"/>
             <column name="expected_value" value="25000.00"/>
             <column name="probability" value="25.00"/>
-            <column name="entered_stage_at" valueDate="2025-01-20T14:15:00Z"/>
+            <column name="entered_stage_at" valueDate="2025-01-20T14:15:00"/>
             <column name="days_in_stage" value="1"/>
             <column name="converted_at" value=""/>
             <column name="created_by" value="manager"/>
