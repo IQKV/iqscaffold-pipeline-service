@@ -28,7 +28,7 @@
             <column name="probability" value="75.00"/>
             <column name="entered_stage_at" valueDate="2024-12-18T10:30:00"/>
             <column name="days_in_stage" value="34"/>
-            <column name="converted_at" value=""/>
+            <column name="converted_at" valueDate="null"/>
             <column name="created_by" value="admin"/>
             <column name="updated_by" value="admin"/>
         </insert>
@@ -56,7 +56,7 @@
             <column name="probability" value="25.00"/>
             <column name="entered_stage_at" valueDate="2025-01-20T14:15:00"/>
             <column name="days_in_stage" value="1"/>
-            <column name="converted_at" value=""/>
+            <column name="converted_at" valueDate="null"/>
             <column name="created_by" value="manager"/>
             <column name="updated_by" value="manager"/>
         </insert>
