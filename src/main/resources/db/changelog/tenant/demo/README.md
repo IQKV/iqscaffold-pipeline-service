@@ -7,7 +7,7 @@ This directory contains demo data migrations for the Pipeline Service, providing
 The demo data creates pipeline scenario with 3 pipeline items representing different stages of the sales process, along with associated follow-ups and activities.
 
 ### Demo Tenant Context
-- **Tenant ID**: `demo-tenant`
+- **Tenant ID**: `default`
 - **Tenant Name**: Demo Tech Solutions
 - **Schema**: `demo_tenant`
 - **Status**: ACTIVE

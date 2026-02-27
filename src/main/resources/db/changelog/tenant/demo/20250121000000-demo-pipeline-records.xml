@@ -6,12 +6,12 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
 
     <changeSet id="20250121000000-demo-pipeline-records" author="iqscaffold" context="demo">
-        <comment>Create demo pipeline records for demo-tenant with pipeline items, follow-ups, and activities</comment>
+        <comment>Create demo pipeline records for default with pipeline items, follow-ups, and activities</comment>
 
         <!-- Demo Tenant Info for Pipeline Service -->
-        <!-- Links demo-tenant to its schema for pipeline service operations -->
+        <!-- Links default to its schema for pipeline service operations -->
         <insert tableName="tenant_info" schemaName="public">
-            <column name="tenant_id" value="demo-tenant"/>
+            <column name="tenant_id" value="default"/>
             <column name="tenant_name" value="Demo Tech Solutions"/>
             <column name="schema_name" value="demo_tenant"/>
             <column name="status" value="ACTIVE"/>
@@ -67,7 +67,7 @@
             
             <!-- Remove tenant info -->
             <delete tableName="tenant_info" schemaName="public">
-                <where>tenant_id = 'demo-tenant'</where>
+                <where>tenant_id = 'default'</where>
             </delete>
         </rollback>
     </changeSet>
