@@ -281,6 +281,7 @@
                         <exclude>**/followup/FollowUp.class</exclude>
                         <exclude>**/followup/FollowUpEntityGraphServiceImpl.class</exclude>
                         <exclude>**/tenancy/SchemaTenantIdentifierResolver.class</exclude>
+                        <exclude>**/tenancy/SchemaNameResolver.class</exclude>
                         <exclude>**/tenancy/TenantContext.class</exclude>
                     </excludes>
                 </configuration>
