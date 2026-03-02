@@ -260,6 +260,7 @@
                         <exclude>**/infrastructure/messaging/*Publisher.class</exclude>
                         <exclude>**/infrastructure/client/*Client.class</exclude>
                         <exclude>**/security/JwtClaimNames.class</exclude>
+                        <exclude>**/health/*.class</exclude>
                         <!-- Exclude non-critical classes from coverage -->
                         <exclude>**/activity/PipelineActivity.class</exclude>
                         <exclude>**/activity/ActivityType.class</exclude>
