@@ -77,8 +77,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${JWT_ISSUER_URI:http://iqscaffold-user-service:8080}
-          jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service:8080/.well-known/jwks.json}
+          issuer-uri: ${JWT_ISSUER_URI:http://iqscaffold-user-service}
+          jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service/.well-known/jwks.json}
 
 server:
   port: ${SERVER_PORT:8080}
@@ -162,7 +162,7 @@ iqscaffold:
   
   security:
     jwt:
-      jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service:8080/.well-known/jwks.json}
+      jwk-set-uri: ${JWT_JWK_SET_URI:http://iqscaffold-user-service/.well-known/jwks.json}
       issuer: ${JWT_ISSUER:iqscaffold-user-service}
       secret-key: ${JWT_SECRET_KEY:change-me-in-production}
       algorithm: HS256
@@ -201,4 +201,4 @@ iqscaffold:
     enable-follow-up-reminders: ${PIPELINE_ENABLE_FOLLOW_UP_REMINDERS:true}
     enable-activity-tracking: ${PIPELINE_ENABLE_ACTIVITY_TRACKING:true}
   services:
-    lead-service-url: ${LEAD_SERVICE_URL:http://lead-service:8080}
+    lead-service-url: ${LEAD_SERVICE_URL:http://lead-service}
