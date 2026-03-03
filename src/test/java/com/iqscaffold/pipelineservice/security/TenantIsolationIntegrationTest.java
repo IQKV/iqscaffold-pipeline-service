@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iqscaffold.pipelineservice.config.TestJacksonConfiguration;
+import com.iqscaffold.pipelineservice.config.TestTenantConfiguration;
 import com.iqscaffold.pipelineservice.config.TestWebClientConfiguration;
 import com.iqscaffold.pipelineservice.followup.FollowUp;
 import com.iqscaffold.pipelineservice.followup.FollowUpPriority;
@@ -49,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
-@Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class})
+@Import({TestWebClientConfiguration.class, TestJacksonConfiguration.class, TestTenantConfiguration.class})
 @Transactional
 @Disabled("Temporarily disabled - requires tenant schema configuration.")
 class TenantIsolationIntegrationTest {
