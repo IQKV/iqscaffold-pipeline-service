@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/pipeline")
 @Tag(name = "Pipeline Health", description = "Public health check endpoint for pipeline service monitoring")
-public class PipelineHealthController {
+public class PipelineHealthRestRespurce {
 
   @Operation(
       summary = "Pipeline service health check",

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/pipeline/optimized")
 @Tag(name = "Pipeline Entity Graphs", description = "Optimized pipeline data fetching using entity graphs")
-public class PipelineEntityGraphController {
+public class PipelineEntityGraphRestRespurce {
 
   private final PipelineItemEntityGraphService pipelineItemEntityGraphService;
   private final PipelineStageEntityGraphService pipelineStageEntityGraphService;
