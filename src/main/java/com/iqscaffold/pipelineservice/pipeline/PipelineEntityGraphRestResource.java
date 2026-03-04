@@ -36,7 +36,7 @@ public class PipelineEntityGraphRestResource {
   private final FollowUpEntityGraphService followUpEntityGraphService;
   private final PipelineActivityEntityGraphService pipelineActivityEntityGraphService;
 
-  public PipelineEntityGraphController(
+  public PipelineEntityGraphRestResource(
       final PipelineItemEntityGraphService pipelineItemEntityGraphService,
       final PipelineStageEntityGraphService pipelineStageEntityGraphService,
       final FollowUpEntityGraphService followUpEntityGraphService,
