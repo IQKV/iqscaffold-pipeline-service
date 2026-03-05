@@ -284,6 +284,7 @@
                         <exclude>**/tenancy/SchemaTenantIdentifierResolver.class</exclude>
                         <exclude>**/tenancy/SchemaNameResolver.class</exclude>
                         <exclude>**/tenancy/TenantContext.class</exclude>
+                        <exclude>**/tenancy/SchemaPerTenantConnectionProvider.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
