@@ -8,11 +8,13 @@ import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.boot.hibernate.autoconfigure.HibernatePropertiesCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Configuration for tenant-aware JPA and Hibernate settings. Provides tenant context resolution for multi-tenant data isolation.
  */
 @Configuration
+@Profile("!test")  // Don't load in test profile
 public class TenantConfig {
 
   /**

@@ -16,38 +16,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
- * Test configuration for multi-tenancy support in tests.
- * Provides beans needed for tenant-aware data access in test environment.
+ * Test configuration for single-tenant (non-multi-tenant) support in tests.
+ * Disables multi-tenancy and uses H2's PUBLIC schema.
  */
 @TestConfiguration
 @Profile("test")
 public class TestTenantConfiguration {
 
   @Bean
-  public SchemaNameResolver schemaNameResolver() {
-    return new SchemaNameResolver("tenant_", "default");
-  }
-
-  @Bean
-  public CurrentTenantIdentifierResolver currentTenantIdentifierResolver(
-      final SchemaNameResolver schemaNameResolver) {
-    return new SchemaTenantIdentifierResolver(schemaNameResolver);
-  }
-
-  @Bean
-  public MultiTenantConnectionProvider multiTenantConnectionProvider(DataSource dataSource) {
-    return new SchemaPerTenantConnectionProvider(dataSource);
-  }
-
-  @Bean
-  public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(
-      final CurrentTenantIdentifierResolver tenantResolver,
-      final MultiTenantConnectionProvider connectionProvider) {
-
+  public HibernatePropertiesCustomizer hibernatePropertiesCustomizer() {
+    // Disable multi-tenancy for tests - use single schema (PUBLIC)
     return hibernateProperties -> {
-      hibernateProperties.put("hibernate.multiTenancy", "SCHEMA");
-      hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, connectionProvider);
-      hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantResolver);
+      hibernateProperties.put("hibernate.multiTenancy", "NONE");
       hibernateProperties.put(AvailableSettings.USE_SQL_COMMENTS, true);
     };
   }
