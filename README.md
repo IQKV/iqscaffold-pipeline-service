@@ -231,11 +231,11 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "name": "Proposal Sent",
-  "description": "Proposal has been sent to the prospect",
-  "order": 4,
-  "color": "#FFA500",
-  "isActive": true
+    "name": "Proposal Sent",
+    "description": "Proposal has been sent to the prospect",
+    "order": 4,
+    "color": "#FFA500",
+    "isActive": true
 }
 ```
 
@@ -243,14 +243,14 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "id": 1,
-  "name": "Proposal Sent",
-  "description": "Proposal has been sent to the prospect",
-  "order": 4,
-  "color": "#FFA500",
-  "isActive": true,
-  "createdAt": "2026-02-03T10:30:00Z",
-  "updatedAt": "2026-02-03T10:30:00Z"
+    "id": 1,
+    "name": "Proposal Sent",
+    "description": "Proposal has been sent to the prospect",
+    "order": 4,
+    "color": "#FFA500",
+    "isActive": true,
+    "createdAt": "2026-02-03T10:30:00Z",
+    "updatedAt": "2026-02-03T10:30:00Z"
 }
 ```
 
@@ -262,30 +262,30 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 [
-  {
-    "id": 1,
-    "name": "New",
-    "description": "Newly created leads",
-    "order": 1,
-    "color": "#E3F2FD",
-    "isActive": true
-  },
-  {
-    "id": 2,
-    "name": "Contacted",
-    "description": "Initial contact made",
-    "order": 2,
-    "color": "#FFF3E0",
-    "isActive": true
-  },
-  {
-    "id": 3,
-    "name": "Qualified",
-    "description": "Lead qualified as potential customer",
-    "order": 3,
-    "color": "#E8F5E8",
-    "isActive": true
-  }
+    {
+        "id": 1,
+        "name": "New",
+        "description": "Newly created leads",
+        "order": 1,
+        "color": "#E3F2FD",
+        "isActive": true
+    },
+    {
+        "id": 2,
+        "name": "Contacted",
+        "description": "Initial contact made",
+        "order": 2,
+        "color": "#FFF3E0",
+        "isActive": true
+    },
+    {
+        "id": 3,
+        "name": "Qualified",
+        "description": "Lead qualified as potential customer",
+        "order": 3,
+        "color": "#E8F5E8",
+        "isActive": true
+    }
 ]
 ```
 
@@ -299,12 +299,12 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "leadId": "lead-123",
-  "stageId": 1,
-  "value": 5000.0,
-  "probability": 25,
-  "expectedCloseDate": "2026-03-15T00:00:00Z",
-  "notes": "Initial contact made, showing interest"
+    "leadId": "lead-123",
+    "stageId": 1,
+    "value": 5000.0,
+    "probability": 25,
+    "expectedCloseDate": "2026-03-15T00:00:00Z",
+    "notes": "Initial contact made, showing interest"
 }
 ```
 
@@ -312,16 +312,16 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "id": 1,
-  "leadId": "lead-123",
-  "stageId": 1,
-  "stageName": "New",
-  "value": 5000.0,
-  "probability": 25,
-  "expectedCloseDate": "2026-03-15T00:00:00Z",
-  "notes": "Initial contact made, showing interest",
-  "createdAt": "2026-02-03T10:30:00Z",
-  "updatedAt": "2026-02-03T10:30:00Z"
+    "id": 1,
+    "leadId": "lead-123",
+    "stageId": 1,
+    "stageName": "New",
+    "value": 5000.0,
+    "probability": 25,
+    "expectedCloseDate": "2026-03-15T00:00:00Z",
+    "notes": "Initial contact made, showing interest",
+    "createdAt": "2026-02-03T10:30:00Z",
+    "updatedAt": "2026-02-03T10:30:00Z"
 }
 ```
 
@@ -333,9 +333,9 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "stageId": 3,
-  "probability": 60,
-  "notes": "Lead qualified after discovery call"
+    "stageId": 3,
+    "probability": 60,
+    "notes": "Lead qualified after discovery call"
 }
 ```
 
@@ -349,12 +349,12 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "leadId": "lead-123",
-  "type": "CALL",
-  "subject": "Follow-up call to discuss proposal",
-  "description": "Call to review proposal details and answer questions",
-  "dueDate": "2026-02-05T14:00:00Z",
-  "priority": "HIGH"
+    "leadId": "lead-123",
+    "type": "CALL",
+    "subject": "Follow-up call to discuss proposal",
+    "description": "Call to review proposal details and answer questions",
+    "dueDate": "2026-02-05T14:00:00Z",
+    "priority": "HIGH"
 }
 ```
 
@@ -362,15 +362,15 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "id": 1,
-  "leadId": "lead-123",
-  "type": "CALL",
-  "subject": "Follow-up call to discuss proposal",
-  "description": "Call to review proposal details and answer questions",
-  "dueDate": "2026-02-05T14:00:00Z",
-  "priority": "HIGH",
-  "status": "PENDING",
-  "createdAt": "2026-02-03T10:30:00Z"
+    "id": 1,
+    "leadId": "lead-123",
+    "type": "CALL",
+    "subject": "Follow-up call to discuss proposal",
+    "description": "Call to review proposal details and answer questions",
+    "dueDate": "2026-02-05T14:00:00Z",
+    "priority": "HIGH",
+    "status": "PENDING",
+    "createdAt": "2026-02-03T10:30:00Z"
 }
 ```
 
@@ -384,27 +384,27 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "totalLeads": 150,
-  "totalValue": 750000.0,
-  "averageValue": 5000.0,
-  "conversionRate": 15.5,
-  "averageTimeToClose": 45,
-  "stageDistribution": [
-    {
-      "stageId": 1,
-      "stageName": "New",
-      "count": 45,
-      "value": 225000.0,
-      "percentage": 30.0
-    },
-    {
-      "stageId": 2,
-      "stageName": "Contacted",
-      "count": 35,
-      "value": 175000.0,
-      "percentage": 23.3
-    }
-  ]
+    "totalLeads": 150,
+    "totalValue": 750000.0,
+    "averageValue": 5000.0,
+    "conversionRate": 15.5,
+    "averageTimeToClose": 45,
+    "stageDistribution": [
+        {
+            "stageId": 1,
+            "stageName": "New",
+            "count": 45,
+            "value": 225000.0,
+            "percentage": 30.0
+        },
+        {
+            "stageId": 2,
+            "stageName": "Contacted",
+            "count": 35,
+            "value": 175000.0,
+            "percentage": 23.3
+        }
+    ]
 }
 ```
 
@@ -416,27 +416,27 @@ This is the pipeline management hub for the IQ Scaffold CRM platform. It central
 
 ```json
 {
-  "overallConversionRate": 15.5,
-  "stageConversions": [
-    {
-      "fromStage": "New",
-      "toStage": "Contacted",
-      "rate": 75.0,
-      "count": 120
-    },
-    {
-      "fromStage": "Contacted",
-      "toStage": "Qualified",
-      "rate": 60.0,
-      "count": 90
+    "overallConversionRate": 15.5,
+    "stageConversions": [
+        {
+            "fromStage": "New",
+            "toStage": "Contacted",
+            "rate": 75.0,
+            "count": 120
+        },
+        {
+            "fromStage": "Contacted",
+            "toStage": "Qualified",
+            "rate": 60.0,
+            "count": 90
+        }
+    ],
+    "timeToConvert": {
+        "averageDays": 45,
+        "medianDays": 38,
+        "fastest": 15,
+        "slowest": 120
     }
-  ],
-  "timeToConvert": {
-    "averageDays": 45,
-    "medianDays": 38,
-    "fastest": 15,
-    "slowest": 120
-  }
 }
 ```
 
@@ -656,11 +656,11 @@ Pipeline Service validates JWT tokens and extracts tenant context:
 
 ```yaml
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://iqscaffold-user-service:8080/api/v1/auth/.well-known/jwks.json
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: http://iqscaffold-user-service:8080/api/v1/auth/.well-known/jwks.json
 ```
 
 Extract user and tenant context from JWT:

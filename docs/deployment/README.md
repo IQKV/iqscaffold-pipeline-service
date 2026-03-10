@@ -213,11 +213,11 @@ Production deployments include:
 
 - Prometheus ServiceMonitor
 - Alerting rules for service health:
-  - **PipelineServiceDown**: Service unavailable for >1 minute
-  - **PipelineServiceHighMemory**: Memory usage >80% for >5 minutes
-  - **PipelineServiceHighLatency**: 95th percentile latency >2 seconds
-  - **PipelineServiceDatabaseConnectionFailure**: No active database connections
-  - **PipelineServiceHighFollowUpOverdue**: Overdue follow-ups >100
+    - **PipelineServiceDown**: Service unavailable for >1 minute
+    - **PipelineServiceHighMemory**: Memory usage >80% for >5 minutes
+    - **PipelineServiceHighLatency**: 95th percentile latency >2 seconds
+    - **PipelineServiceDatabaseConnectionFailure**: No active database connections
+    - **PipelineServiceHighFollowUpOverdue**: Overdue follow-ups >100
 - Grafana dashboards for pipeline metrics
 
 ### Troubleshooting
@@ -226,47 +226,47 @@ Production deployments include:
 
 1. **Database Connection Failures**
 
-   ```bash
-   kubectl logs deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env
-   ```
+    ```bash
+    kubectl logs deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env
+    ```
 
 2. **RabbitMQ Connection Issues**
 
-   ```bash
-   # Check RabbitMQ connectivity
-   kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-     nc -zv iqscaffold-infra-rabbitmq.iqscaffold-dev-env.svc.cluster.local 5672
+    ```bash
+    # Check RabbitMQ connectivity
+    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
+      nc -zv iqscaffold-infra-rabbitmq.iqscaffold-dev-env.svc.cluster.local 5672
 
-   # Verify RabbitMQ password configuration
-   kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
-   ```
+    # Verify RabbitMQ password configuration
+    kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
+    ```
 
 3. **Check Configuration**
 
-   ```bash
-   kubectl describe configmap iqscaffold-pipeline-service-config -n iqscaffold-dev-env
-   ```
+    ```bash
+    kubectl describe configmap iqscaffold-pipeline-service-config -n iqscaffold-dev-env
+    ```
 
 4. **Test Health Endpoints**
 
-   ```bash
-   kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqscaffold-dev-env
-   curl http://localhost:8081/actuator/health
-   ```
+    ```bash
+    kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqscaffold-dev-env
+    curl http://localhost:8081/actuator/health
+    ```
 
 5. **Pipeline Configuration Issues**
 
-   ```bash
-   # Check pipeline configuration
-   kubectl get configmap iqscaffold-pipeline-service-config -o yaml | grep PIPELINE_
-   ```
+    ```bash
+    # Check pipeline configuration
+    kubectl get configmap iqscaffold-pipeline-service-config -o yaml | grep PIPELINE_
+    ```
 
 6. **Service Integration Issues**
-   ```bash
-   # Test service connectivity
-   kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-     curl http://iqscaffold-user-service/actuator/health
-   ```
+    ```bash
+    # Test service connectivity
+    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
+      curl http://iqscaffold-user-service/actuator/health
+    ```
 
 #### Rollback
 
