@@ -202,6 +202,7 @@ public class PipelineStageRestResource {
     return ResponseEntity.ok(response);
   }
 
+
   /**
    * Extracts the current user ID from the JWT token.
    *
