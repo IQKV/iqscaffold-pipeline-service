@@ -15,9 +15,9 @@ The IQ Scaffold Pipeline Service is deployed using Helm charts and automated CI/
 | Environment | Namespace                   | Purpose                      |
 | ----------- | --------------------------- | ---------------------------- |
 | Dev         | `iqkvdev-dev-env`        | Development and WIP branches |
-| Test        | `iqscaffold-test-env`       | Feature branch testing       |
-| Staging     | `iqscaffold-staging-env`    | Pre-production validation    |
-| Production  | `iqscaffold-production-env` | Live production environment  |
+| Test        | `iqkvdev-test-env`       | Feature branch testing       |
+| Staging     | `iqkvdev-staging-env`    | Pre-production validation    |
+| Production  | `iqkvdev-production-env` | Live production environment  |
 
 ### Automated Deployment (CI/CD)
 
@@ -96,7 +96,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
   --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --set config.security.jwt.secretKey=${JWT_SECRET_KEY} \
-  --namespace iqscaffold-production-env
+  --namespace iqkvdev-production-env
 ```
 
 </details>
@@ -161,7 +161,7 @@ helm upgrade --install pipeline-service ./ \
   --set infraServices.postgresql.password="${POSTGRESQL_PASSWORD}" \
   --set infraServices.rabbitmq.password="${RABBITMQ_PASSWORD}" \
   --set config.security.jwt.secretKey="${JWT_SECRET_KEY}" \
-  --namespace iqscaffold-production-env \
+  --namespace iqkvdev-production-env \
   --create-namespace
 ```
 
@@ -272,10 +272,10 @@ Production deployments include:
 
 ```bash
 # Rollback to previous version
-helm rollback iqscaffold-pipeline-service -n iqscaffold-production-env
+helm rollback iqscaffold-pipeline-service -n iqkvdev-production-env
 
 # Or uninstall completely
-helm uninstall iqscaffold-pipeline-service -n iqscaffold-production-env
+helm uninstall iqscaffold-pipeline-service -n iqkvdev-production-env
 ```
 
 ### Security
