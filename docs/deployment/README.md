@@ -14,7 +14,7 @@ The IQ Scaffold Pipeline Service is deployed using Helm charts and automated CI/
 
 | Environment | Namespace                   | Purpose                      |
 | ----------- | --------------------------- | ---------------------------- |
-| Dev         | `iqscaffold-dev-env`        | Development and WIP branches |
+| Dev         | `iqkvdev-dev-env`        | Development and WIP branches |
 | Test        | `iqscaffold-test-env`       | Feature branch testing       |
 | Staging     | `iqscaffold-staging-env`    | Pre-production validation    |
 | Production  | `iqscaffold-production-env` | Live production environment  |
@@ -86,7 +86,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
   --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --set config.security.jwt.secretKey=${JWT_SECRET_KEY} \
-  --namespace iqscaffold-dev-env
+  --namespace iqkvdev-dev-env
 
 # Production (Tagged releases)
 helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service ./ \
@@ -135,7 +135,7 @@ helm upgrade --install pipeline-service ./ \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --set config.security.jwt.secretKey="your-secure-symmetric-key" \
-  --namespace iqscaffold-dev-env \
+  --namespace iqkvdev-dev-env \
   --create-namespace
 ```
 
@@ -149,7 +149,7 @@ helm upgrade --install pipeline-service ./ \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --set config.security.jwt.secretKey="your-secure-symmetric-key" \
-  --namespace iqscaffold-dev-env \
+  --namespace iqkvdev-dev-env \
   --create-namespace
 ```
 
@@ -227,15 +227,15 @@ Production deployments include:
 1. **Database Connection Failures**
 
     ```bash
-    kubectl logs deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env
+    kubectl logs deployment/iqscaffold-pipeline-service -n iqkvdev-dev-env
     ```
 
 2. **RabbitMQ Connection Issues**
 
     ```bash
     # Check RabbitMQ connectivity
-    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
-      nc -zv iqscaffold-infra-rabbitmq.iqscaffold-dev-env.svc.cluster.local 5672
+    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqkvdev-dev-env -- \
+      nc -zv iqkvdev-infra-rabbitmq.iqkvdev-dev-env.svc.cluster.local 5672
 
     # Verify RabbitMQ password configuration
     kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
@@ -244,13 +244,13 @@ Production deployments include:
 3. **Check Configuration**
 
     ```bash
-    kubectl describe configmap iqscaffold-pipeline-service-config -n iqscaffold-dev-env
+    kubectl describe configmap iqscaffold-pipeline-service-config -n iqkvdev-dev-env
     ```
 
 4. **Test Health Endpoints**
 
     ```bash
-    kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqscaffold-dev-env
+    kubectl port-forward deployment/iqscaffold-pipeline-service 8081:8081 -n iqkvdev-dev-env
     curl http://localhost:8081/actuator/health
     ```
 
@@ -264,7 +264,7 @@ Production deployments include:
 6. **Service Integration Issues**
     ```bash
     # Test service connectivity
-    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqscaffold-dev-env -- \
+    kubectl exec -it deployment/iqscaffold-pipeline-service -n iqkvdev-dev-env -- \
       curl http://iqscaffold-user-service/actuator/health
     ```
 
