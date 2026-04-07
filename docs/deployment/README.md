@@ -14,7 +14,7 @@ The IQ Scaffold Pipeline Service is deployed using Helm charts and automated CI/
 
 | Environment | Namespace                | Purpose                      |
 | ----------- | ------------------------ | ---------------------------- |
-| Dev         | `iqkvdev-dev-env`        | Development and WIP branches |
+| Dev         | `iqkvdev-test-env`        | Development and WIP branches |
 | Test        | `iqkvdev-test-env`       | Feature branch testing       |
 | Staging     | `iqkvdev-staging-env`    | Pre-production validation    |
 | Production  | `iqkvdev-production-env` | Live production environment  |
@@ -86,7 +86,7 @@ helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service 
   --set infraServices.postgresql.password=${INFRA_POSTGRESQL_PASSWORD} \
   --set infraServices.rabbitmq.password=${INFRA_RABBITMQ_PASSWORD} \
   --set config.security.jwt.secretKey=${JWT_SECRET_KEY} \
-  --namespace iqkvdev-dev-env
+  --namespace iqkvdev-test-env
 
 # Production (Tagged releases)
 helm upgrade --install --atomic --wait --timeout 5m iqscaffold-pipeline-service ./ \
@@ -135,7 +135,7 @@ helm upgrade --install pipeline-service ./ \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --set config.security.jwt.secretKey="your-secure-symmetric-key" \
-  --namespace iqkvdev-dev-env \
+  --namespace iqkvdev-test-env \
   --create-namespace
 ```
 
@@ -149,7 +149,7 @@ helm upgrade --install pipeline-service ./ \
   --set infraServices.postgresql.password="your-postgresql-password" \
   --set infraServices.rabbitmq.password="your-rabbitmq-password" \
   --set config.security.jwt.secretKey="your-secure-symmetric-key" \
-  --namespace iqkvdev-dev-env \
+  --namespace iqkvdev-test-env \
   --create-namespace
 ```
 
@@ -235,7 +235,7 @@ Production deployments include:
     ```bash
     # Check RabbitMQ connectivity
     kubectl exec -it deployment/iqscaffold-pipeline-service -n iqkvdev-test-env -- \
-      nc -zv iqkvdev-infra-rabbitmq.iqkvdev-dev-env.svc.cluster.local 5672
+      nc -zv iqkvdev-infra-rabbitmq.iqkvdev-test-env.svc.cluster.local 5672
 
     # Verify RabbitMQ password configuration
     kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
