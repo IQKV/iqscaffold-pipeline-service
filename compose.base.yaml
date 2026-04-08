@@ -92,7 +92,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-      target: builder
+      target: runtime
     image: iqscaffold/iqscaffold-pipeline-service:dev
     container_name: iqscaffold-pipeline-service-dev
     environment:
@@ -131,13 +131,7 @@ services:
       OTEL_RESOURCE_ATTRIBUTES: service.name=iqscaffold-pipeline-service,service.version=1.0.0,deployment.environment=dev
 
       # JVM Configuration
-      JAVA_OPTS: >-
-        -Xms256m
-        -Xmx512m
-        -XX:+UseG1GC
-        -XX:+UseContainerSupport
-        -XX:MaxRAMPercentage=75.0
-        -Djava.security.egd=file:/dev/./urandom
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
     ports:
       - "8080:8080"
     depends_on:
@@ -150,7 +144,7 @@ services:
     networks:
       - pipeline-service-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://pipeline-service:8080/actuator/health/readiness"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health/readiness"]
       interval: 30s
       timeout: 10s
       retries: 3
