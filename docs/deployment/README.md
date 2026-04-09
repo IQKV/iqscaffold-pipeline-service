@@ -12,8 +12,8 @@ The IQ Scaffold Pipeline Service is deployed using Helm charts and automated CI/
 
 ### Environments
 
-| Environment | Namespace         | Purpose                     |
-| ----------- | ----------------- | --------------------------- |
+| Environment | Namespace      | Purpose                     |
+| ----------- | -------------- | --------------------------- |
 | Test        | `iqkv-sit-env` | Feature branch testing      |
 | Staging     | `iqkv-uat-env` | Pre-production validation   |
 | Production  | `iqkv-prd-env` | Live production environment |
