@@ -234,7 +234,7 @@ Production deployments include:
     ```bash
     # Check RabbitMQ connectivity
     kubectl exec -it deployment/iqscaffold-pipeline-service -n iqkv-sit-env -- \
-      nc -zv iqkv-infra-rabbitmq.iqkv-sit-env.svc.cluster.local 5672
+      nc -zv foundation-infra-rabbitmq.iqkv-sit-env.svc.cluster.local 5672
 
     # Verify RabbitMQ password configuration
     kubectl get secret iqscaffold-pipeline-service-secrets -o yaml | grep rabbitmq
