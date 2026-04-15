@@ -15,7 +15,7 @@
             }
         ]
     },
-    "description": "IQ Scaffold Pipeline Service - Comprehensive Spring Boot monitoring dashboard with JVM, HTTP, Database, Cache, and Business metrics",
+    "description": "IQ  Key Value Pipeline Service - Comprehensive Spring Boot monitoring dashboard with JVM, HTTP, Database, Cache, and Business metrics",
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 1,
@@ -1735,7 +1735,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "IQ Scaffold Pipeline Service - Spring Boot Metrics",
+    "title": "IQ  Key Value Pipeline Service - Spring Boot Metrics",
     "uid": "iqscaffold-pipeline-service",
     "version": 1,
     "weekStart": ""

@@ -14,7 +14,7 @@
     <artifactId>iqscaffold-pipeline-service</artifactId>
     <packaging>jar</packaging>
 
-    <name>IQ Scaffold Pipeline Service</name>
+    <name>IQ  Key Value Pipeline Service</name>
     <description>CRM pipeline management service for lead tracking and follow-ups</description>
     <properties>
         <spring-boot.run.jvmArguments>-Duser.timezone=UTC</spring-boot.run.jvmArguments>

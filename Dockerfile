@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for IQ Scaffold Pipeline Service
+# Multi-stage Dockerfile for IQ  Key Value Pipeline Service
 
 # Build stage
 FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder

@@ -25,7 +25,7 @@ public class OpenApiConfig {
   public OpenAPI pipelineServiceOpenAPI() {
     return new OpenAPI()
         .info(new Info()
-            .title("IQ Scaffold Pipeline Service API")
+            .title("IQ  Key Value Pipeline Service API")
             .version("1.0.0")
             .description("""
                 CRM pipeline management service for lead tracking and follow-ups.
@@ -48,7 +48,7 @@ public class OpenApiConfig {
                 All errors follow RFC 7807 Problem Details format with correlation IDs for tracing.
                 """)
             .contact(new Contact()
-                .name("IQ Scaffold Platform Team")
+                .name("IQ  Key Value Platform Team")
                 .email("api-support@iqscaffold.com")
                 .url("https://docs.iqscaffold.com"))
             .license(new License()
