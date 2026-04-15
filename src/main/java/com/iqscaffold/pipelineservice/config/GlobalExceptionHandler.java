@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
         HttpStatus.BAD_REQUEST,
         "Validation failed for one or more fields"
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/validation-error"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/validation-error"));
     problemDetail.setTitle("Validation Error");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
         HttpStatus.NOT_FOUND,
         ex.getMessage()
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/not-found"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/not-found"));
     problemDetail.setTitle("Resource Not Found");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
         HttpStatus.CONFLICT,
         ex.getMessage()
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/conflict"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/conflict"));
     problemDetail.setTitle("Resource Conflict");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         HttpStatus.BAD_REQUEST,
         ex.getMessage()
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/business-rule-violation"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/business-rule-violation"));
     problemDetail.setTitle("Business Rule Violation");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -156,7 +156,7 @@ public class GlobalExceptionHandler {
         HttpStatus.UNAUTHORIZED,
         "Authentication failed"
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/unauthorized"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/unauthorized"));
     problemDetail.setTitle("Unauthorized");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -181,7 +181,7 @@ public class GlobalExceptionHandler {
         HttpStatus.FORBIDDEN,
         "You do not have permission to access this resource"
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/forbidden"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/forbidden"));
     problemDetail.setTitle("Access Denied");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
@@ -207,7 +207,7 @@ public class GlobalExceptionHandler {
         HttpStatus.INTERNAL_SERVER_ERROR,
         "An unexpected error occurred. Please try again later."
     );
-    problemDetail.setType(URI.create("https://api.iqscaffold.com/errors/internal-error"));
+    problemDetail.setType(URI.create("https://api.iqkv.dev/errors/internal-error"));
     problemDetail.setTitle("Internal Server Error");
     problemDetail.setInstance(URI.create(request.getRequestURI()));
     problemDetail.setProperty("timestamp", LocalDateTime.now());
