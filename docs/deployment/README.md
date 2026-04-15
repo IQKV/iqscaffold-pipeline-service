@@ -2,7 +2,7 @@
 
 ### Overview
 
-The IQ  Key Value Pipeline Service is deployed using Helm charts and automated CI/CD pipelines. The service provides CRM pipeline management, lead tracking, stage management, follow-up scheduling, and multi-tenancy capabilities.
+The IQ Key Value Pipeline Service is deployed using Helm charts and automated CI/CD pipelines. The service provides CRM pipeline management, lead tracking, stage management, follow-up scheduling, and multi-tenancy capabilities.
 
 ### Prerequisites
 

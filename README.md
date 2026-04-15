@@ -1,4 +1,4 @@
-# 📊 IQ  Key Value Pipeline Service
+# 📊 IQ Key Value Pipeline Service
 
 > CRM pipeline management microservice providing lead tracking, pipeline stage management, follow-up scheduling, and comprehensive sales analytics with multi-tenant support and event-driven integration.
 
@@ -30,7 +30,7 @@ CRM Pipeline management service that handles:
 
 ## Overview
 
-This is the pipeline management hub for the IQ  Key Value CRM platform. It centralizes sales pipeline tracking, enabling sales teams to manage leads through customizable stages, schedule follow-ups, and analyze conversion performance while maintaining comprehensive activity logs and analytics.
+This is the pipeline management hub for the IQ Key Value CRM platform. It centralizes sales pipeline tracking, enabling sales teams to manage leads through customizable stages, schedule follow-ups, and analyze conversion performance while maintaining comprehensive activity logs and analytics.
 
 ## What It Demonstrates
 
